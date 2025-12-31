@@ -1,4 +1,5 @@
 import { Instagram, Youtube } from "lucide-react";
+import { motion } from "motion/react";
 
 const RedditIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -10,7 +11,13 @@ const Footer = () => {
   return (
     <footer className="py-12 border-t border-border">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <motion.div 
+          className="flex flex-col md:flex-row items-center justify-between gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           {/* Logo */}
           <div className="text-center md:text-left">
             <h3 className="font-serif text-2xl">
@@ -56,7 +63,7 @@ const Footer = () => {
               © {new Date().getFullYear()} Circuit Nation. All rights reserved.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

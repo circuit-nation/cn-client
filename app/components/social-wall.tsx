@@ -1,4 +1,5 @@
 import { Instagram, Heart, MessageCircle } from "lucide-react";
+import { motion } from "motion/react";
 
 interface Post {
     id: number;
@@ -57,7 +58,13 @@ const SocialWall = () => {
     return (
         <section className="py-20">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
+                <motion.div 
+                    className="text-center mb-12"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
                     <div className="inline-flex items-center gap-2 mb-4">
                         <Instagram className="w-8 h-8 text-pink-500" />
                         <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl">
@@ -76,14 +83,21 @@ const SocialWall = () => {
                         @circuitnation
                         <span className="text-muted-foreground">• Follow us</span>
                     </a>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     {posts.map((post, index) => (
-                        <div
+                        <motion.div
                             key={post.id}
-                            className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer animate-slide-up"
-                            style={{ animationDelay: `${index * 0.1}s` }}
+                            className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ 
+                                duration: 0.5, 
+                                delay: index * 0.05,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
                         >
                             <img
                                 src={post.image}
@@ -112,12 +126,18 @@ const SocialWall = () => {
                             <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Instagram className="w-5 h-5 text-foreground" />
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
                 {/* CTA */}
-                <div className="text-center mt-12">
+                <motion.div 
+                    className="text-center mt-12"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                >
                     <a
                         href="https://instagram.com"
                         target="_blank"
@@ -127,7 +147,7 @@ const SocialWall = () => {
                         <Instagram className="w-5 h-5 text-pink-500" />
                         View More on Instagram
                     </a>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

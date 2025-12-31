@@ -1,4 +1,5 @@
 import { Instagram, Youtube } from "lucide-react";
+import { motion } from "motion/react";
 
 const RedditIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -36,20 +37,35 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         {/* Logo/Brand */}
-        <div className="mb-8 animate-slide-up" style={{ animationDelay: "0.1s" }}>
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-normal tracking-tight">
             <span className="text-red-500">Circuit</span>{" "}
             <span className="text-blue-800">Nation</span>
           </h1>
-        </div>
+        </motion.div>
 
         {/* Tagline */}
-        <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans mb-12 animate-slide-up" style={{ animationDelay: "0.3s" }}>
+        <motion.p 
+          className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
           Ultimate Hub for Everything Motorsports
-        </p>
+        </motion.p>
 
         {/* Community Badge */}
-        <div className="inline-flex items-center gap-2 glass-card rounded-full px-6 py-3 mb-12 animate-slide-up" style={{ animationDelay: "0.5s" }}>
+        <motion.div 
+          className="inline-flex items-center gap-2 glass-card rounded-full px-6 py-3 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="flex -space-x-2">
             {[...Array(4)].map((_, i) => (
               <div
@@ -59,12 +75,27 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
             ))}
           </div>
           <span className="text-sm font-medium text-muted-foreground">Join 400K+ motorsport fans</span>
-        </div>
+        </motion.div>
 
         {/* Social Stats */}
-        <div className="flex flex-wrap justify-center gap-6 animate-slide-up" style={{ animationDelay: "0.7s" }}>
+        <motion.div 
+          className="flex flex-wrap justify-center gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           {socialStats.map((stat, index) => (
-            <div key={index} className="stat-card">
+            <motion.div 
+              key={index} 
+              className="stat-card"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.5, 
+                delay: 0.8 + index * 0.1,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+            >
               <div className={`${stat.color}`}>
                 <stat.icon />
               </div>
@@ -72,9 +103,9 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
                 <div className="text-2xl font-bold font-sans">{stat.count}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

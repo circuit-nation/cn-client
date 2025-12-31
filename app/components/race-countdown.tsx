@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Calendar, Clock, MapPin } from "lucide-react";
+import { motion } from "motion/react";
 
 interface TimeLeft {
     days: number;
@@ -58,26 +59,38 @@ const RaceCountdown = ({ f1Image, motoGpImage }: RaceCountdownProps) => {
     return (
         <section className="py-20 relative overflow-hidden">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
+                <motion.div 
+                    className="text-center mb-12"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
                     <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">
                         Upcoming Races
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Never miss a race. Countdown to the next grand prix.
                     </p>
-                </div>
+                </motion.div>
 
-                <Tabs defaultValue="f1" className="w-full max-w-5xl mx-auto">
-                    <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-secondary/50 p-1 mb-8">
-                        <TabsTrigger value="f1" className="race-tab-f1 data-[state=active]:text-foreground">
-                            Formula 1
-                        </TabsTrigger>
-                        <TabsTrigger value="motogp" className="race-tab-motogp data-[state=active]:text-foreground">
-                            MotoGP
-                        </TabsTrigger>
-                    </TabsList>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <Tabs defaultValue="f1" className="w-full max-w-5xl mx-auto">
+                        <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-secondary/50 p-1 mb-8">
+                            <TabsTrigger value="f1" className="race-tab-f1 data-[state=active]:text-foreground">
+                                Formula 1
+                            </TabsTrigger>
+                            <TabsTrigger value="motogp" className="race-tab-motogp data-[state=active]:text-foreground">
+                                MotoGP
+                            </TabsTrigger>
+                        </TabsList>
 
-                    <TabsContent value="f1" className="animate-fade-in">
+                        <TabsContent value="f1" className="animate-fade-in">
                         <div className="glass-card rounded-2xl overflow-hidden glow-f1">
                             <div className="relative h-64 md:h-80">
                                 <img
@@ -161,8 +174,9 @@ const RaceCountdown = ({ f1Image, motoGpImage }: RaceCountdownProps) => {
                                 </div>
                             </div>
                         </div>
-                    </TabsContent>
-                </Tabs>
+                        </TabsContent>
+                    </Tabs>
+                </motion.div>
             </div>
         </section>
     );

@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Trophy, Users } from "lucide-react";
+import { motion } from "motion/react";
 
 const f1Drivers = [
     { position: 1, name: "Max Verstappen", team: "Red Bull Racing", points: 575, nationality: "🇳🇱" },
@@ -51,18 +52,30 @@ const Leaderboards = () => {
     return (
         <section className="py-20 bg-linear-to-b from-background to-card/50">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
+                <motion.div 
+                    className="text-center mb-12"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
                     <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">
                         Championship Standings
                     </h2>
                     <p className="text-muted-foreground text-lg">
                         Track the battle for glory in both championships
                     </p>
-                </div>
+                </motion.div>
 
                 <div className="grid lg:grid-cols-2 gap-8">
                     {/* F1 Leaderboard */}
-                    <div className="glass-card rounded-2xl p-6 md:p-8">
+                    <motion.div 
+                        className="glass-card rounded-2xl p-6 md:p-8"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    >
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 rounded-lg bg-red-500/60">
                                 <Trophy className="w-5 h-5" />
@@ -119,10 +132,16 @@ const Leaderboards = () => {
                                 ))}
                             </TabsContent>
                         </Tabs>
-                    </div>
+                    </motion.div>
 
                     {/* MotoGP Leaderboard */}
-                    <div className="glass-card rounded-2xl p-6 md:p-8">
+                    <motion.div 
+                        className="glass-card rounded-2xl p-6 md:p-8"
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                    >
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 rounded-lg bg-blue-800/60">
                                 <Trophy className="w-5 h-5" />
@@ -179,7 +198,7 @@ const Leaderboards = () => {
                                 ))}
                             </TabsContent>
                         </Tabs>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
