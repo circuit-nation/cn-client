@@ -1,6 +1,5 @@
 import type { Route } from "./+types/calendar";
 import { MotorsportCalendar } from '~/components/calendar';
-import { ModeToggle } from "~/components/ui/mode-toggle";
 import { Logo } from "~/components/utils/logo";
 
 export function meta({ }: Route.MetaArgs) {
@@ -24,9 +23,6 @@ const Index = () => {
                             <h1 className="text-xl font-bold text-foreground">Circuit Nation</h1>
                             <p className="text-sm text-muted-foreground">Ultimate Hub for Everything Motorsports</p>
                         </div>
-                    </div>
-                    <div className="p-0 bg-transparent">
-                        <ModeToggle />
                     </div>
                 </div>
             </header>

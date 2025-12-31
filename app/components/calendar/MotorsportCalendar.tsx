@@ -73,10 +73,10 @@ export const MotorsportCalendar = ({ className }: MotorsportCalendarProps) => {
                         id="filter-f1"
                         checked={filters.f1}
                         onCheckedChange={() => toggleFilter('f1')}
-                        className="border-f1 data-[state=checked]:bg-f1 data-[state=checked]:border-f1"
+                        className="border-red-800 data-[state=checked]:bg-red-800 data-[state=checked]:border-red-800"
                     />
                     <label htmlFor="filter-f1" className="flex items-center gap-2 cursor-pointer">
-                        <span className="w-3 h-3 rounded-sm bg-f1" />
+                        <span className="w-3 h-3 rounded-sm bg-red-800" />
                         <span className="text-xs font-medium text-muted-foreground">Formula 1</span>
                     </label>
                 </div>
@@ -85,10 +85,10 @@ export const MotorsportCalendar = ({ className }: MotorsportCalendarProps) => {
                         id="filter-motogp"
                         checked={filters.motogp}
                         onCheckedChange={() => toggleFilter('motogp')}
-                        className="border-motogp data-[state=checked]:bg-motogp data-[state=checked]:border-motogp"
+                        className="border-blue-800 data-[state=checked]:bg-blue-800 data-[state=checked]:border-blue-800"
                     />
                     <label htmlFor="filter-motogp" className="flex items-center gap-2 cursor-pointer">
-                        <span className="w-3 h-3 rounded-sm bg-motogp" />
+                        <span className="w-3 h-3 rounded-sm bg-blue-800" />
                         <span className="text-xs font-medium text-muted-foreground">MotoGP</span>
                     </label>
                 </div>

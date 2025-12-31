@@ -1,5 +1,8 @@
-import type { Route } from "./+types/home";
-import { Hero } from "../components/hero";
+import type { Route } from "./+types/home";import HeroSection from "~/components/hero";
+import RaceCountdown from "~/components/race-countdown";
+import Leaderboards from "~/components/leaderboard";
+import SocialWall from "~/components/social-wall";
+import Footer from "~/components/footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,6 +11,16 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-  return <Hero />;
-}
+const Home = () => {
+  return (
+    <main className="min-h-screen bg-background">
+      <HeroSection heroImage={"/assets/hero-motorsport.jpg"} />
+      <RaceCountdown f1Image={"/assets/f1-car.jpg"} motoGpImage={"/assets/motogp-bike.jpg"} />
+      <Leaderboards />
+      <SocialWall />
+      <Footer />
+    </main>
+  );
+};
+
+export default Home;

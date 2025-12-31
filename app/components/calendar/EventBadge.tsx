@@ -14,8 +14,8 @@ export const EventBadge = ({ event, date, compact = false }: EventBadgeProps) =>
     const position = getEventPosition(date, event);
 
     const sportStyles = {
-        f1: 'bg-f1 text-f1-foreground',
-        motogp: 'bg-motogp text-motogp-foreground',
+        f1: 'bg-red-800 text-red-200',
+        motogp: 'bg-blue-800 text-blue-200',
     };
 
     const positionStyles = {
@@ -63,21 +63,21 @@ export const EventBadge = ({ event, date, compact = false }: EventBadgeProps) =>
             >
                 <div className={cn(
                     'px-4 py-3',
-                    event.sport === 'f1' ? 'bg-f1' : 'bg-motogp'
+                    event.sport === 'f1' ? 'bg-red-800' : 'bg-blue-800'
                 )}>
                     <div className="flex items-center gap-2">
                         <span className={cn(
                             'px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wide',
                             event.sport === 'f1'
-                                ? 'bg-f1-foreground/20 text-f1-foreground'
-                                : 'bg-motogp-foreground/20 text-motogp-foreground'
+                                ? 'bg-red-800/20 text-red-200'
+                                : 'bg-blue-800/20 text-blue-200'
                         )}>
                             {event.sport === 'f1' ? 'Formula 1' : 'MotoGP'}
                         </span>
                     </div>
                     <h3 className={cn(
                         'text-lg font-bold mt-2',
-                        event.sport === 'f1' ? 'text-f1-foreground' : 'text-motogp-foreground'
+                        event.sport === 'f1' ? 'text-red-200' : 'text-blue-200'
                     )}>
                         {event.title}
                     </h3>
