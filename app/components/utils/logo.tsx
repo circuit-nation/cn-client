@@ -1,9 +1,10 @@
-export function Logo({ w = "24" }: { w?: string }) {
+export function Logo() {
     return (
         <img
-            src={"/public/images/logo.svg"}
+            src={"/images/logo.svg"}
             alt="Circuit Nation Logo"
-            className={`block w-${w} h-auto p-0`}
+            className={`block w-full h-full p-0 object-contain bg-transparent`}
         />
+
     );
 }
