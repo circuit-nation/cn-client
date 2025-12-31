@@ -9,7 +9,8 @@ export const getDaysInMonth = (date: Date): Date[] => {
   const days: Date[] = [];
 
   // Add days from previous month to fill the first week
-  const startDayOfWeek = firstDay.getDay();
+  // Adjust so Monday is day 0, Sunday is day 6
+  const startDayOfWeek = (firstDay.getDay() + 6) % 7;
   for (let i = startDayOfWeek - 1; i >= 0; i--) {
     days.push(new Date(year, month, -i));
   }
@@ -30,7 +31,8 @@ export const getDaysInMonth = (date: Date): Date[] => {
 
 export const getWeekDays = (date: Date): Date[] => {
   const startOfWeek = new Date(date);
-  const day = startOfWeek.getDay();
+  // Adjust so Monday is day 0, Sunday is day 6
+  const day = (startOfWeek.getDay() + 6) % 7;
   startOfWeek.setDate(startOfWeek.getDate() - day);
 
   const days: Date[] = [];

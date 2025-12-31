@@ -7,7 +7,7 @@ interface MonthViewProps {
     events: MotorsportEvent[];
 }
 
-const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export const MonthView = ({ currentDate, events }: MonthViewProps) => {
     const days = getDaysInMonth(currentDate);
