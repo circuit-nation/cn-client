@@ -85,3 +85,35 @@
 ### Bucket Folder
 
 1. {sport}-{round}-{country-code}.webp
+
+
+
+
+
+
+
+
+OLDER TODO IDEAS
+
+1. confetti on race day
+
+- landing page!!!
+
+https://www.behance.net/gallery/229123957/F1-Website-Redesign-Designathon-Runnerup/modules/1312510391
+
+- colors for motogp and f1 in calendar event badges
+- remove 3 day view from calendar
+
+- monkeys blogs fetch and display
+- social media wall
+
+//HERO SECTION
+- social media numbers
+- upcoming race info
+
+- Leaderboards
+
+- blogs on wet races, legendary overtakes, etc.
+- Best Movies to watch if you’re a motorsports fan
+
+- blog/video series on legendary races that you might have misseda
