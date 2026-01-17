@@ -2,59 +2,59 @@
 - [ ] Remove hover effect from individual dates, only keep the event hover effects
 - [ ] 
 
-### Data Schemas
+## Database Schema
 
-1. Events (Table)
-- uuid: string
-- id: string
-- title: string
-- round: int
-- location: {
-    lat: string
-    lon: string
-}
-- type: string (enum)
-- location_str: string
-- sport: table reference
-- country_code: string
-- country: string
-- event_start_at: ISO Date String
-- event_end_at: ISO Date String
-- links: {
-    instagram: string
-    youtube: string
-    discord: string
-    x: string
-    sources: string[monkeys]
-}
-- images: string[]
-- created_at: ISO Date String (default)
-- updated_at: ISO Date String (default)
+## Events
+Stores all racing-related events.
 
-2. Sports
-- id: string
-- name: string
-- logo: string
-- color: string (hex)
-- type: string (enum)
-- tags: string[]
+| Field | Type | Required | Description |
+|------|------|----------|-------------|
+| $id | string | yes | Appwrite system ID |
+| id | string | yes | Domain-specific event ID |
+| title | string | yes | Event title |
+| round | int | yes | Championship round |
+| type | enum | yes | Event type |
+| location | float[] | no | GPS coordinates [lat, long] |
+| location_id | string | yes | Reference to `event_locations.$id` |
+| links_id | string | no | Reference to `event_links.$id` |
+| location_str | string | yes | Human-readable location |
+| sport | string | yes | Reference to `sports.$id` |
+| country_code | string | yes | ISO country code |
+| country | string | yes | Country name |
+| event_start_at | datetime | yes | Event start |
+| event_end_at | datetime | yes | Event end |
+| images | string[] | no | Image URLs |
+| $createdAt | datetime | auto | Created timestamp |
+| $updatedAt | datetime | auto | Updated timestamp |
 
-3. Teams
-- id
-- name
-- logo
-- sport
-- tags
-- color
+---
 
-4. Drivers
-- id
-- name
-- image
-- sport
-- tags
+## Event Links
+Stores social & media links.
 
-5. Sports Type Enum
+| Field | Type | Required |
+|-----|------|----------|
+| instagram | string | no |
+| youtube | string | no |
+| discord | string | no |
+| x | string | no |
+| sources | string[] | no |
+
+---
+
+## Sports
+Defines a racing discipline.
+
+| Field | Type | Required |
+|------|------|----------|
+| id | string | yes |
+| name | string | yes |
+| logo | string | yes |
+| color | string | yes |
+| type | enum | yes |
+| tags | string[] | no |
+
+### Sports Type Enum
 - formula
 - feeder
 - indycar
@@ -64,7 +64,34 @@
 - off road
 - nascar
 
-6. Event Type Enum
+---
+
+## Teams
+
+| Field | Type | Required |
+|------|------|----------|
+| id | string | yes |
+| name | string | yes |
+| logo | string | yes |
+| sport | string | yes |
+| tags | string[] | no |
+| color | string | no |
+
+---
+
+## Drivers
+
+| Field | Type | Required |
+|------|------|----------|
+| id | string | yes |
+| name | string | yes |
+| image | string | yes |
+| sport | string | yes |
+| tags | string[] | no |
+
+---
+
+## Event Type Enum
 - race
 - qualifying
 - practice
@@ -73,13 +100,11 @@
 - shootout
 - warmup
 - demo
-
 - news
 - announcement
 - update
 - watch party
 
-### Enums
 
 
 ### Bucket Folder
