@@ -10,4 +10,4 @@ export interface MotorsportEvent {
   circuit?: string;
 }
 
-export type CalendarView = 'month' | 'week' | '3day';
+export type CalendarView = 'month' | 'week';

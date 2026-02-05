@@ -37,7 +37,7 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         {/* Logo/Brand */}
-        <motion.div 
+        <motion.div
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,7 +50,7 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
         </motion.div>
 
         {/* Tagline */}
-        <motion.p 
+        <motion.p
           className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-sans mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
         </motion.p>
 
         {/* Community Badge */}
-        <motion.div 
+        <motion.div
           className="inline-flex items-center gap-2 glass-card rounded-full px-6 py-3 mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -78,20 +78,20 @@ const Hero = ({ heroImage }: HeroSectionProps) => {
         </motion.div>
 
         {/* Social Stats */}
-        <motion.div 
+        <motion.div
           className="flex flex-wrap justify-center gap-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           {socialStats.map((stat, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               className="stat-card"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
-                duration: 0.5, 
+              transition={{
+                duration: 0.5,
                 delay: 0.8 + index * 0.1,
                 ease: [0.22, 1, 0.36, 1]
               }}

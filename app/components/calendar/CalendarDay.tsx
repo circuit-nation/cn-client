@@ -1,5 +1,5 @@
 import type { MotorsportEvent } from '~/types/calendar';
-import { isToday, isCurrentMonth, getEventsForDay } from '~/lib/calendar-utils';
+import { isToday, isCurrentMonth, getEventsStartingOnDay, getDayOfWeek } from '~/lib/calendar-utils';
 import { EventBadge } from './EventBadge';
 import { cn } from '~/lib/utils';
 
@@ -11,27 +11,29 @@ interface CalendarDayProps {
 }
 
 export const CalendarDay = ({ date, currentDate, events, compact = false }: CalendarDayProps) => {
-    const dayEvents = getEventsForDay(date, events);
+    // Only render events that START on this day (for merged display)
+    const dayEvents = getEventsStartingOnDay(date, events);
     const isCurrentDay = isToday(date);
     const isInCurrentMonth = isCurrentMonth(date, currentDate);
+    const dayOfWeek = getDayOfWeek(date);
 
     return (
         <div
             className={cn(
-                'min-h-20 p-1 border-r border-b border-calendar-grid transition-colors',
-                'hover:bg-calendar-hover',
-                !isInCurrentMonth && 'bg-muted/30',
-                compact && 'min-h-15'
+                'relative min-h-32 p-2 border-r-2 border-b-2 border-white/30 transition-colors bg-black',
+                'hover:bg-zinc-900',
+                !isInCurrentMonth && 'bg-zinc-950/50 opacity-70',
+                compact && 'min-h-24'
             )}
         >
-            <div className="flex justify-between items-start mb-1">
+            <div className="flex justify-start items-start mb-2">
                 <span
                     className={cn(
-                        'inline-flex items-center justify-center text-sm font-medium',
-                        'w-7 h-7 rounded-full transition-colors',
-                        isCurrentDay && 'bg-calendar-today text-calendar-today-foreground',
-                        !isCurrentDay && isInCurrentMonth && 'text-foreground',
-                        !isCurrentDay && !isInCurrentMonth && 'text-muted-foreground'
+                        'inline-flex items-center justify-center text-base font-bold',
+                        'w-8 h-8 transition-colors',
+                        isCurrentDay && 'bg-red-600 text-white rounded-sm',
+                        !isCurrentDay && isInCurrentMonth && 'text-white',
+                        !isCurrentDay && !isInCurrentMonth && 'text-zinc-600'
                     )}
                 >
                     {date.getDate()}
@@ -39,22 +41,18 @@ export const CalendarDay = ({ date, currentDate, events, compact = false }: Cale
             </div>
 
             <div className={cn(
-                'space-y-0.5 overflow-hidden',
-                compact ? 'max-h-8' : 'max-h-13'
+                'space-y-1 overflow-visible relative',
+                compact ? 'max-h-12' : 'max-h-24'
             )}>
-                {dayEvents.slice(0, compact ? 1 : 2).map((event) => (
+                {dayEvents.map((event) => (
                     <EventBadge
                         key={event.id}
                         event={event}
                         date={date}
+                        dayOfWeek={dayOfWeek}
                         compact={compact}
                     />
                 ))}
-                {dayEvents.length > (compact ? 1 : 2) && (
-                    <span className="text-[10px] text-muted-foreground px-1">
-                        +{dayEvents.length - (compact ? 1 : 2)} more
-                    </span>
-                )}
             </div>
         </div>
     );

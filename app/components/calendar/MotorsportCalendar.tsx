@@ -5,7 +5,6 @@ import { CalendarHeader } from './CalendarHeader';
 import { ViewSwitcher } from './ViewSwitcher';
 import { MonthView } from './MonthView';
 import { WeekView } from './WeekView';
-// import { ThreeDayView } from './ThreeDayView';
 import { cn } from '~/lib/utils';
 import { Checkbox } from '~/components/ui/checkbox';
 
@@ -40,9 +39,6 @@ export const MotorsportCalendar = ({ className }: MotorsportCalendarProps) => {
                 case 'week':
                     newDate.setDate(prev.getDate() + (direction === 'next' ? 7 : -7));
                     break;
-                // case '3day':
-                //     newDate.setDate(prev.getDate() + (direction === 'next' ? 3 : -3));
-                //     break;
             }
 
             return newDate;
@@ -102,9 +98,6 @@ export const MotorsportCalendar = ({ className }: MotorsportCalendarProps) => {
                 {view === 'week' && (
                     <WeekView currentDate={currentDate} events={filteredEvents} />
                 )}
-                {/* {view === '3day' && (
-                    <ThreeDayView currentDate={currentDate} events={filteredEvents} />
-                )} */}
             </div>
         </div>
     );

@@ -121,3 +121,23 @@ export const getEventPosition = (
   if (isEnd) return "end";
   return "middle";
 };
+
+export const getEventDuration = (event: MotorsportEvent): number => {
+  const start = new Date(event.startDate.getFullYear(), event.startDate.getMonth(), event.startDate.getDate());
+  const end = new Date(event.endDate.getFullYear(), event.endDate.getMonth(), event.endDate.getDate());
+  const diffTime = Math.abs(end.getTime() - start.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays + 1; // +1 to include both start and end dates
+};
+
+export const getDayOfWeek = (date: Date): number => {
+  // Returns 0 for Monday, 6 for Sunday
+  return (date.getDay() + 6) % 7;
+};
+
+export const getEventsStartingOnDay = (
+  date: Date,
+  events: MotorsportEvent[]
+): MotorsportEvent[] => {
+  return events.filter((event) => isSameDay(date, event.startDate));
+};

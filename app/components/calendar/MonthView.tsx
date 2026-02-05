@@ -7,7 +7,7 @@ interface MonthViewProps {
     events: MotorsportEvent[];
 }
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const WEEKDAYS = ['MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT', 'SUN'];
 
 export const MonthView = ({ currentDate, events }: MonthViewProps) => {
     const days = getDaysInMonth(currentDate);
@@ -15,11 +15,11 @@ export const MonthView = ({ currentDate, events }: MonthViewProps) => {
     return (
         <div className="animate-fade-in">
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 border-l border-t border-calendar-grid bg-secondary/50">
+            <div className="grid grid-cols-7 border-l-2 border-t-2 border-white/30 bg-black">
                 {WEEKDAYS.map((day) => (
                     <div
                         key={day}
-                        className="py-2 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide text-center border-r border-calendar-grid"
+                        className="py-4 px-3 text-lg font-bold text-white uppercase tracking-wider text-center border-r-2 border-white/30"
                     >
                         {day}
                     </div>
@@ -27,7 +27,7 @@ export const MonthView = ({ currentDate, events }: MonthViewProps) => {
             </div>
 
             {/* Calendar grid */}
-            <div className="grid grid-cols-7 border-l border-calendar-grid">
+            <div className="grid grid-cols-7 border-l-2 border-white/30">
                 {days.map((date, index) => (
                     <CalendarDay
                         key={index}
