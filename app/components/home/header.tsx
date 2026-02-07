@@ -51,16 +51,18 @@ export default function HomeHeader() {
                         isOpen={isMobileMenuOpen}
                         onClose={() => setIsMobileMenuOpen(false)}
                     >
-                        {navItems.map((item, idx) => (
-                            <a
-                                key={`mobile-link-${idx}`}
-                                href={item.link}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="relative text-slate-300"
-                            >
-                                <span className="block">{item.name}</span>
-                            </a>
-                        ))}
+                        <div className="flex w-full flex-col gap-2">
+                            {navItems.map((item, idx) => (
+                                <a
+                                    key={`mobile-link-${idx}`}
+                                    href={item.link}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex w-full items-center justify-between px-4 py-3 font-medium text-primary transition-colors"
+                                >
+                                    <span className="block">{item.name}</span>
+                                </a>
+                            ))}
+                        </div>
                     </MobileNavMenu>
                 </MobileNav>
             </Navbar>

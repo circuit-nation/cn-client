@@ -10,6 +10,7 @@ import {
 import React, { useRef, useState } from "react";
 import { Logo } from "../common/logo";
 import { Link } from "react-router";
+import { Drawer, DrawerContent, DrawerHeader } from "./drawer";
 
 
 interface NavbarProps {
@@ -127,14 +128,17 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                 <Link
                     onMouseEnter={() => setHovered(idx)}
                     onClick={onItemClick}
-                    className="relative px-4 py-2 text-slate-300"
+                    className={cn(
+                        "relative px-4 py-2 text-slate-300 rounded-full",
+                        items.some(item => item.name === "Calendar") && item.name === "Calendar" ? "bg-cn-red text-white transition-color duration-200" : "hover:text-slate-300",
+                    )}
                     key={`link-${idx}`}
                     to={item.link}
                 >
                     {hovered === idx && (
                         <motion.div
                             layoutId="hovered"
-                            className="absolute inset-0 h-full w-full rounded-full bg-muted"
+                            className="absolute inset-0 h-full w-full rounded-full bg-cn-red/20"
                         />
                     )}
                     <span className="relative z-20">{item.name}</span>
@@ -196,21 +200,23 @@ export const MobileNavMenu = ({
     onClose,
 }: MobileNavMenuProps) => {
     return (
-        <AnimatePresence>
-            {isOpen && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className={cn(
-                        "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-slate-950 px-4 py-8 shadow-[0_0_24px_rgba(34,42,53,0.06),0_1px_1px_rgba(0,0,0,0.05),0_0_0_1px_rgba(34,42,53,0.04),0_0_4px_rgba(34,42,53,0.08),0_16px_68px_rgba(47,48,55,0.05),0_1px_0_rgba(255,255,255,0.1)_inset]",
-                        className,
-                    )}
-                >
-                    {children}
-                </motion.div>
-            )}
-        </AnimatePresence>
+        <Drawer
+            open={isOpen}
+            onOpenChange={(open) => !open && onClose()}
+            direction={"right"}
+        >
+            <DrawerContent
+                className={cn(
+                    "pt-12 pl-4 border border-border bg-background",
+                    className,
+                )}
+            >
+                <DrawerHeader className="border-b">
+                    Menu
+                </DrawerHeader>
+                {children}
+            </DrawerContent>
+        </Drawer>
     );
 };
 
