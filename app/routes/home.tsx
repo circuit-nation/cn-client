@@ -8,6 +8,7 @@ import Leaderboards from "~/components/home/leaderboard";
 import SocialWall from "~/components/home/social-wall";
 import Footer from "~/components/home/footer";
 import About from "~/components/home/about";
+import ArticleShowcase from "~/components/articles/article-showcase";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -38,11 +39,12 @@ const Home = () => {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background max-w-7xl mx-auto px-4 border border-red-500">
+    <main className="min-h-screen bg-background max-w-7xl mx-auto px-4 space-y-12 md:space-y-6">
       <HomeHeader />
       <HeroSection />
-      <RaceCountdown f1Image="/assets/f1-car.jpg" motoGpImage="/assets/motogp-bike.jpg" />
-      <Leaderboards />
+      <ArticleShowcase />
+      {/* <RaceCountdown f1Image="/assets/f1-car.jpg" motoGpImage="/assets/motogp-bike.jpg" />
+      <Leaderboards /> */}
       <SocialWall />
       <About />
       <Footer />

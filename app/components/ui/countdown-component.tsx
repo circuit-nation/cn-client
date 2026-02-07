@@ -1,5 +1,3 @@
-"use client";
-
 import NumberFlow from "@number-flow/react";
 import { AnimatePresence, motion, useSpring } from "motion/react";
 import { animate, useMotionValue } from "motion/react";

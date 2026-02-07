@@ -1,4 +1,3 @@
-"use client";
 import { cn } from "~/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
@@ -9,7 +8,7 @@ import {
 } from "motion/react";
 
 import React, { useRef, useState } from "react";
-import { Logo } from "../utils/logo";
+import { Logo } from "../common/logo";
 import { Link } from "react-router";
 
 
@@ -105,7 +104,6 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
             }}
             className={cn(
                 "relative z-60 mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex",
-                visible && "bg-slate-950/80",
                 className,
             )}
         >
@@ -136,7 +134,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                     {hovered === idx && (
                         <motion.div
                             layoutId="hovered"
-                            className="absolute inset-0 h-full w-full rounded-full bg-slate-700"
+                            className="absolute inset-0 h-full w-full rounded-full bg-muted"
                         />
                     )}
                     <span className="relative z-20">{item.name}</span>
@@ -157,7 +155,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
                 width: visible ? "90%" : "100%",
                 paddingRight: visible ? "12px" : "0px",
                 paddingLeft: visible ? "12px" : "0px",
-                borderRadius: visible ? "4px" : "2rem",
+                borderRadius: visible ? "48px" : "2rem",
                 y: visible ? 20 : 0,
             }}
             transition={{
@@ -167,7 +165,6 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
             }}
             className={cn(
                 "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-                visible && "bg-slate-950/80",
                 className,
             )}
         >

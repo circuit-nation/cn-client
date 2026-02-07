@@ -1,5 +1,8 @@
-import { Instagram, Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 import { motion } from "motion/react";
+import { Card, CardHeader, CardTitle } from "~/components/ui/card";
+import { IconBrandInstagram as Instagram } from "@tabler/icons-react";
+import ComponentHeading from "../common/component-heading";
 
 interface Post {
     id: number;
@@ -57,81 +60,61 @@ const posts: Post[] = [
 const SocialWall = () => {
     return (
         <section className="py-20">
-            <div className="container mx-auto px-4">
-                <motion.div 
-                    className="text-center mb-12"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <div className="inline-flex items-center gap-2 mb-4">
-                        <Instagram className="w-8 h-8 text-cn-pink" />
-                        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl">
-                            Social Wall
-                        </h2>
-                    </div>
-                    <p className="text-muted-foreground text-lg">
-                        Latest from our Instagram community
-                    </p>
-                    <a
-                        href="https://instagram.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 mt-4 text-cn-pink hover:text-cn-pink/80 transition-colors"
-                    >
-                        @circuitnation
-                        <span className="text-muted-foreground">• Follow us</span>
-                    </a>
-                </motion.div>
+            <div className="mx-auto px-4 space-y-4">
+                <div>
+                    <ComponentHeading
+                        title="Social Wall"
+                        subtitle="Catch the latest from our Instagram feed and join the conversation with fellow motorsport enthusiasts!"
+                        badgeText="Instagram"
+                        badgeIcon={<Instagram data-icon="align-start" />}
+                    />
+                </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {posts.map((post, index) => (
                         <motion.div
                             key={post.id}
-                            className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer"
+                            className="group"
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true, margin: "-50px" }}
-                            transition={{ 
-                                duration: 0.5, 
+                            transition={{
+                                duration: 0.5,
                                 delay: index * 0.05,
                                 ease: [0.22, 1, 0.36, 1]
                             }}
                         >
-                            <img
-                                src={post.image}
-                                alt={post.caption}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
-
-                            {/* Overlay */}
-                            <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4">
-                                <div className="flex items-center gap-4 mb-3">
-                                    <span className="flex items-center gap-1 text-sm">
-                                        <Heart className="w-4 h-4 text-cn-red fill-cn-red" />
-                                        {post.likes}
-                                    </span>
-                                    <span className="flex items-center gap-1 text-sm">
-                                        <MessageCircle className="w-4 h-4" />
-                                        {post.comments}
-                                    </span>
+                            <Card className="overflow-hidden border-muted/40 bg-background/80 shadow-sm pb-4 pt-1">
+                                <div className="relative">
+                                    <img
+                                        src={post.image}
+                                        alt={post.caption}
+                                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        loading="lazy"
+                                    />
                                 </div>
-                                <p className="text-xs text-center text-muted-foreground line-clamp-2">
-                                    {post.caption}
-                                </p>
-                            </div>
-
-                            {/* Instagram icon */}
-                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Instagram className="w-5 h-5 text-foreground" />
-                            </div>
+                                <CardHeader className="gap-2">
+                                    <CardTitle className="text-base line-clamp-1">
+                                        {post.caption}
+                                    </CardTitle>
+                                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                                        <span className="inline-flex items-center gap-1">
+                                            <Heart className="h-4 w-4 text-cn-red fill-cn-red" />
+                                            {post.likes}
+                                        </span>
+                                        <span className="inline-flex items-center gap-1">
+                                            <MessageCircle className="h-4 w-4" />
+                                            {post.comments}
+                                        </span>
+                                    </div>
+                                </CardHeader>
+                            </Card>
                         </motion.div>
                     ))}
                 </div>
 
                 {/* CTA */}
-                <motion.div 
+                <motion.div
                     className="text-center mt-12"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -142,7 +125,7 @@ const SocialWall = () => {
                         href="https://instagram.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 glass-card px-8 py-4 rounded-full font-semibold hover:scale-105 transition-transform duration-300"
+                        className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold border border-muted/50 bg-background/80 hover:scale-105 transition-transform duration-300"
                     >
                         <Instagram className="w-5 h-5 text-cn-pink" />
                         View More on Instagram

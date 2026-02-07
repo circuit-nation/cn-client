@@ -1,6 +1,6 @@
 import type { Route } from "./+types/calendar";
 import { MotorsportCalendar } from '~/components/calendar';
-import { Logo } from "~/components/utils/logo";
+import { Logo } from "~/components/common/logo";
 
 export function meta({ }: Route.MetaArgs) {
     return [
