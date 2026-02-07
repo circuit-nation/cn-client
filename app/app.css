@@ -55,37 +55,77 @@ body {
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  
+  /* Base colors using Tailwind slate palette */
+  --background: 15 23 42;        /* slate-900 */
+  --foreground: 248 250 252;     /* slate-50 */
+  
+  --card: 30 41 59;              /* slate-800 */
+  --card-foreground: 248 250 252; /* slate-50 */
+  
+  --popover: 30 41 59;           /* slate-800 */
+  --popover-foreground: 248 250 252; /* slate-50 */
+  
+  --primary: 248 250 252;        /* slate-50 */
+  --primary-foreground: 15 23 42; /* slate-900 */
+  
+  --secondary: 51 65 85;         /* slate-700 */
+  --secondary-foreground: 248 250 252; /* slate-50 */
+  
+  --muted: 51 65 85;             /* slate-700 */
+  --muted-foreground: 148 163 184; /* slate-400 */
+  
+  --accent: 51 65 85;            /* slate-700 */
+  --accent-foreground: 248 250 252; /* slate-50 */
+  
+  --destructive: 239 68 68;      /* red-500 */
+  
+  --border: 71 85 105;           /* slate-600 with opacity handled in usage */
+  --input: 71 85 105;            /* slate-600 */
+  --ring: 100 116 139;           /* slate-500 */
+  
+  /* Brand colors */
+  --cn-red: 239 68 68;           /* red-500 - F1/Circuit Nation primary */
+  --cn-red-dark: 220 38 38;      /* red-700 - darker variant */
+  --cn-blue: 37 99 235;          /* blue-600 - MotoGP/Circuit Nation secondary */
+  --cn-blue-dark: 29 78 216;     /* blue-700 - darker variant */
+  
+  /* Additional colors for features */
+  --cn-orange: 249 115 22;       /* orange-500 - Reddit/Constructor colors */
+  --cn-pink: 236 72 153;         /* pink-500 - Instagram */
+  --cn-teal: 20 184 166;         /* teal-500 - Mercedes team color */
+  --cn-green: 22 163 74;         /* green-600 - Aston Martin */
+  --cn-amber: 180 83 9;          /* amber-700 - Podium 3rd place */
+  
+  /* Slate palette for UI elements */
+  --slate-950: 2 6 23;
+  --slate-900: 15 23 42;
+  --slate-800: 30 41 59;
+  --slate-700: 51 65 85;
+  --slate-600: 71 85 105;
+  --slate-500: 100 116 139;
+  --slate-400: 148 163 184;
+  --slate-300: 203 213 225;
+  --slate-200: 226 232 240;
+  --slate-100: 241 245 249;
+  --slate-50: 248 250 252;
+  
+  /* Charts */
+  --chart-1: 59 130 246;         /* blue-500 */
+  --chart-2: 34 197 94;          /* green-500 */
+  --chart-3: 234 179 8;          /* yellow-500 */
+  --chart-4: 168 85 247;         /* purple-500 */
+  --chart-5: 249 115 22;         /* orange-500 */
+  
+  /* Sidebar */
+  --sidebar: 30 41 59;           /* slate-800 */
+  --sidebar-foreground: 248 250 252; /* slate-50 */
+  --sidebar-primary: 59 130 246; /* blue-500 */
+  --sidebar-primary-foreground: 248 250 252; /* slate-50 */
+  --sidebar-accent: 51 65 85;    /* slate-700 */
+  --sidebar-accent-foreground: 248 250 252; /* slate-50 */
+  --sidebar-border: 71 85 105;   /* slate-600 */
+  --sidebar-ring: 100 116 139;   /* slate-500 */
 }
 
 @layer base {
@@ -96,4 +136,60 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  /* Brand color utilities */
+  .bg-cn-red { background-color: rgb(var(--cn-red)); }
+  .bg-cn-red-dark { background-color: rgb(var(--cn-red-dark)); }
+  .bg-cn-blue { background-color: rgb(var(--cn-blue)); }
+  .bg-cn-blue-dark { background-color: rgb(var(--cn-blue-dark)); }
+  .bg-cn-orange { background-color: rgb(var(--cn-orange)); }
+  .bg-cn-pink { background-color: rgb(var(--cn-pink)); }
+  .bg-cn-teal { background-color: rgb(var(--cn-teal)); }
+  .bg-cn-green { background-color: rgb(var(--cn-green)); }
+  .bg-cn-amber { background-color: rgb(var(--cn-amber)); }
+  
+  .text-cn-red { color: rgb(var(--cn-red)); }
+  .text-cn-red-dark { color: rgb(var(--cn-red-dark)); }
+  .text-cn-blue { color: rgb(var(--cn-blue)); }
+  .text-cn-blue-dark { color: rgb(var(--cn-blue-dark)); }
+  .text-cn-orange { color: rgb(var(--cn-orange)); }
+  .text-cn-pink { color: rgb(var(--cn-pink)); }
+  .text-cn-teal { color: rgb(var(--cn-teal)); }
+  .text-cn-green { color: rgb(var(--cn-green)); }
+  
+  .border-cn-red { border-color: rgb(var(--cn-red)); }
+  .border-cn-red-dark { border-color: rgb(var(--cn-red-dark)); }
+  .border-cn-blue { border-color: rgb(var(--cn-blue)); }
+  .border-cn-blue-dark { border-color: rgb(var(--cn-blue-dark)); }
+  
+  /* Slate utilities for backgrounds */
+  .bg-slate-950 { background-color: rgb(var(--slate-950)); }
+  .bg-slate-900 { background-color: rgb(var(--slate-900)); }
+  .bg-slate-800 { background-color: rgb(var(--slate-800)); }
+  .bg-slate-700 { background-color: rgb(var(--slate-700)); }
+  .bg-slate-600 { background-color: rgb(var(--slate-600)); }
+  .bg-slate-500 { background-color: rgb(var(--slate-500)); }
+  
+  /* Slate utilities for text */
+  .text-slate-50 { color: rgb(var(--slate-50)); }
+  .text-slate-100 { color: rgb(var(--slate-100)); }
+  .text-slate-200 { color: rgb(var(--slate-200)); }
+  .text-slate-300 { color: rgb(var(--slate-300)); }
+  .text-slate-400 { color: rgb(var(--slate-400)); }
+  .text-slate-500 { color: rgb(var(--slate-500)); }
+  .text-slate-600 { color: rgb(var(--slate-600)); }
+  
+  /* Slate utilities for borders */
+  .border-slate-600 { border-color: rgb(var(--slate-600)); }
+  .border-slate-700 { border-color: rgb(var(--slate-700)); }
+  .border-slate-800 { border-color: rgb(var(--slate-800)); }
+  
+  /* Opacity variants for borders */
+  .border-slate-opacity { border-color: rgb(var(--slate-50) / 0.3); }
+  
+  /* Hover states */
+  .hover\:bg-slate-800:hover { background-color: rgb(var(--slate-800)); }
+  .hover\:bg-slate-700:hover { background-color: rgb(var(--slate-700)); }
 }

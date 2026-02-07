@@ -15,11 +15,11 @@ export const MonthView = ({ currentDate, events }: MonthViewProps) => {
     return (
         <div className="animate-fade-in">
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 border-l-2 border-t-2 border-white/30 bg-black">
+            <div className="grid grid-cols-7 border-l-2 border-t-2 border-slate-opacity bg-slate-950">
                 {WEEKDAYS.map((day) => (
                     <div
                         key={day}
-                        className="py-4 px-3 text-lg font-bold text-white uppercase tracking-wider text-center border-r-2 border-white/30"
+                        className="py-4 px-3 text-lg font-bold text-foreground uppercase tracking-wider text-center border-r-2 border-slate-opacity"
                     >
                         {day}
                     </div>
@@ -27,7 +27,7 @@ export const MonthView = ({ currentDate, events }: MonthViewProps) => {
             </div>
 
             {/* Calendar grid */}
-            <div className="grid grid-cols-7 border-l-2 border-white/30">
+            <div className="grid grid-cols-7 border-l-2 border-slate-opacity">
                 {days.map((date, index) => (
                     <CalendarDay
                         key={index}

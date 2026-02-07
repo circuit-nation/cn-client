@@ -20,9 +20,9 @@ export const CalendarDay = ({ date, currentDate, events, compact = false }: Cale
     return (
         <div
             className={cn(
-                'relative min-h-32 p-2 border-r-2 border-b-2 border-white/30 transition-colors bg-black',
-                'hover:bg-zinc-900',
-                !isInCurrentMonth && 'bg-zinc-950/50 opacity-70',
+                'relative min-h-32 p-2 border-r-2 border-b-2 border-slate-opacity transition-colors bg-slate-950',
+                'hover:bg-slate-900',
+                !isInCurrentMonth && 'bg-slate-950/50 opacity-70',
                 compact && 'min-h-24'
             )}
         >
@@ -31,9 +31,9 @@ export const CalendarDay = ({ date, currentDate, events, compact = false }: Cale
                     className={cn(
                         'inline-flex items-center justify-center text-base font-bold',
                         'w-8 h-8 transition-colors',
-                        isCurrentDay && 'bg-red-600 text-white rounded-sm',
-                        !isCurrentDay && isInCurrentMonth && 'text-white',
-                        !isCurrentDay && !isInCurrentMonth && 'text-zinc-600'
+                        isCurrentDay && 'bg-cn-red text-foreground rounded-sm',
+                        !isCurrentDay && isInCurrentMonth && 'text-foreground',
+                        !isCurrentDay && !isInCurrentMonth && 'text-slate-500'
                     )}
                 >
                     {date.getDate()}

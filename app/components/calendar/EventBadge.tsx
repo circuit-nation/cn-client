@@ -24,8 +24,8 @@ export const EventBadge = ({ event, date, dayOfWeek, compact = false }: EventBad
     const spanWidth = cellsToSpan === 1 ? '100%' : `calc(${cellsToSpan * 100}% + ${(cellsToSpan - 1) * 2}px)`;
 
     const sportStyles = {
-        f1: 'bg-red-600 text-white border-red-700',
-        motogp: 'bg-blue-600 text-white border-blue-700',
+        f1: 'bg-cn-red text-foreground border-cn-red-dark',
+        motogp: 'bg-cn-blue text-foreground border-cn-blue-dark',
     };
 
     // Determine if event spans beyond this cell
@@ -47,7 +47,7 @@ export const EventBadge = ({ event, date, dayOfWeek, compact = false }: EventBad
                     }}
                     className={cn(
                         'text-left transition-all duration-150 border-2 rounded-sm',
-                        'hover:brightness-110 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1',
+                        'hover:brightness-110 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-1',
                         'shadow-lg',
                         sportStyles[event.sport],
                         compact ? 'text-xs px-2 py-1 font-semibold' : 'text-sm px-4 py-2.5 font-bold min-h-12 flex items-center',
@@ -56,7 +56,7 @@ export const EventBadge = ({ event, date, dayOfWeek, compact = false }: EventBad
                 >
                     <span className="flex items-center gap-2 w-full">
                         <span className={cn(
-                            "inline-block w-2 h-2 rounded-full bg-white flex-shrink-0",
+                            "inline-block w-2 h-2 rounded-full bg-foreground flex-shrink-0",
                             compact && "w-1.5 h-1.5"
                         )} />
                         <span className={cn(
@@ -75,16 +75,16 @@ export const EventBadge = ({ event, date, dayOfWeek, compact = false }: EventBad
             >
                 <div className={cn(
                     'px-4 py-3',
-                    event.sport === 'f1' ? 'bg-red-600' : 'bg-blue-600'
+                    event.sport === 'f1' ? 'bg-cn-red' : 'bg-cn-blue'
                 )}>
                     <div className="flex items-center gap-2">
                         <span className={cn(
-                            'px-2 py-0.5 rounded-sm text-xs font-bold uppercase tracking-wide bg-black/20 text-white'
+                            'px-2 py-0.5 rounded-sm text-xs font-bold uppercase tracking-wide bg-slate-950/40 text-foreground'
                         )}>
                             {event.sport === 'f1' ? 'Formula 1' : 'MotoGP'}
                         </span>
                     </div>
-                    <h3 className="text-lg font-bold mt-2 text-white">
+                    <h3 className="text-lg font-bold mt-2 text-foreground">
                         {event.title}
                     </h3>
                 </div>

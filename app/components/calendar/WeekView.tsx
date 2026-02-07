@@ -16,11 +16,11 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
     return (
         <div className="animate-fade-in">
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 border-l-2 border-t-2 border-white/30 bg-black">
+            <div className="grid grid-cols-7 border-l-2 border-t-2 border-slate-opacity bg-slate-950">
                 {WEEKDAYS.map((day) => (
                     <div
                         key={day}
-                        className="py-4 px-3 text-lg font-bold text-white uppercase tracking-wider text-center border-r-2 border-white/30"
+                        className="py-4 px-3 text-lg font-bold text-foreground uppercase tracking-wider text-center border-r-2 border-slate-opacity"
                     >
                         {day}
                     </div>
@@ -28,7 +28,7 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
             </div>
 
             {/* Week grid */}
-            <div className="grid grid-cols-7 border-l-2 border-white/30">
+            <div className="grid grid-cols-7 border-l-2 border-slate-opacity">
                 {days.map((date, index) => {
                     const dayEvents = getEventsStartingOnDay(date, events);
                     const isCurrentDay = isToday(date);
@@ -37,7 +37,7 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
                     return (
                         <div
                             key={index}
-                            className="relative min-h-64 p-2 border-r-2 border-b-2 border-white/30 transition-colors bg-black hover:bg-zinc-900"
+                            className="relative min-h-64 p-2 border-r-2 border-b-2 border-slate-opacity transition-colors bg-slate-950 hover:bg-slate-900"
                         >
                             {/* Day header */}
                             <div className="flex justify-start items-start mb-3">
@@ -45,8 +45,8 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
                                     className={cn(
                                         'inline-flex items-center justify-center text-2xl font-bold',
                                         'w-10 h-10 transition-colors',
-                                        isCurrentDay && 'bg-red-600 text-white rounded-sm',
-                                        !isCurrentDay && 'text-white'
+                                        isCurrentDay && 'bg-cn-red text-foreground rounded-sm',
+                                        !isCurrentDay && 'text-foreground'
                                     )}
                                 >
                                     {date.getDate()}
@@ -64,7 +64,7 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
                                     />
                                 ))}
                                 {dayEvents.length === 0 && (
-                                    <p className="text-xs text-zinc-500 text-center py-4">
+                                    <p className="text-xs text-slate-500 text-center py-4">
                                         No events
                                     </p>
                                 )}
