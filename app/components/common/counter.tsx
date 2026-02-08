@@ -1,8 +1,7 @@
 import NumberFlow from "@number-flow/react";
 import { motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
-import { Card, CardAction, CardContent, CardHeader } from "~/components/ui/card";
-import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 type TimeLeft = {
 	days: number;
@@ -28,7 +27,7 @@ const calculateTimeLeft = (targetDate: Date): TimeLeft => {
 
 const CountdownUnit = ({ value, label, accentClass }: { value: number; label: string; accentClass: string }) => (
 	<motion.div
-		className="flex flex-col items-center rounded-lg bg-muted/20 px-3 py-2"
+		className="flex flex-col items-center rounded-lg bg-muted/40 backdrop-blur-lg px-3 py-2"
 		initial={{ opacity: 0, y: 6 }}
 		animate={{ opacity: 1, y: 0 }}
 		transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -43,9 +42,10 @@ interface RaceCountdownCounterProps {
 	targetDate: Date;
 	accentClass: string;
 	subtitle?: string;
+	backgroundImage?: string;
 }
 
-const RaceCountdownCounter = ({ title, subtitle, targetDate, accentClass }: RaceCountdownCounterProps) => {
+const RaceCountdownCounter = ({ title, subtitle, targetDate, accentClass, backgroundImage }: RaceCountdownCounterProps) => {
 	const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => calculateTimeLeft(targetDate));
 
 	useEffect(() => {
@@ -67,23 +67,32 @@ const RaceCountdownCounter = ({ title, subtitle, targetDate, accentClass }: Race
 	);
 
 	return (
-		<Card className="border-muted/40 bg-background/80 shadow-sm overflow-hidden">
-			<CardHeader className="gap-1">
-				<span className={`text-sm font-semibold uppercase tracking-wide ${accentClass}`}>{title}</span>
-				{subtitle ? <span className="text-xs text-muted-foreground">{subtitle}</span> : null}
-			</CardHeader>
-			<CardContent>
-				<div className="grid grid-cols-4 gap-2">
-					{units.map((unit) => (
-						<CountdownUnit
-							key={unit.label}
-							value={unit.value}
-							label={unit.label}
-							accentClass={accentClass}
-						/>
-					))}
-				</div>
-			</CardContent>
+		<Card className="relative border-muted/40 bg-background/80 shadow-sm overflow-hidden">
+			{backgroundImage ? (
+				<img
+					src={backgroundImage}
+					alt={`${title} background`}
+					className="absolute right-0 top-1/2 h-[70%] w-[60%] -translate-y-2/3 translate-x-1/3 object-contain opacity-90 pointer-events-none"
+				/>
+			) : null}
+			<div className="relative space-y-4">
+				<CardHeader className="gap-1">
+					<span className={`text-sm font-semibold uppercase tracking-wide ${accentClass}`}>{title}</span>
+					{subtitle ? <span className="text-xs text-muted-foreground">{subtitle}</span> : null}
+				</CardHeader>
+				<CardContent>
+					<div className="grid grid-cols-4 gap-2">
+						{units.map((unit) => (
+							<CountdownUnit
+								key={unit.label}
+								value={unit.value}
+								label={unit.label}
+								accentClass={accentClass}
+							/>
+						))}
+					</div>
+				</CardContent>
+			</div>
 		</Card>
 	);
 };

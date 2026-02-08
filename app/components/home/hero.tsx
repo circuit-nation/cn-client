@@ -89,12 +89,14 @@ const Hero = () => {
                                         subtitle="Next race · Mar 6"
                                         targetDate={new Date("2026-03-06T14:00:00")}
                                         accentClass="text-cn-red"
+                                        backgroundImage="/assets/f1-car.png"
                                     />
                                     <RaceCountdownCounter
                                         title="MotoGP"
                                         subtitle="Next race · Feb 20"
                                         targetDate={new Date("2026-02-20T14:00:00")}
                                         accentClass="text-cn-blue"
+                                        backgroundImage="/assets/motogp-bike.png"
                                     />
                                 </div>
 
