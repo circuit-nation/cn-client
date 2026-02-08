@@ -2,7 +2,6 @@ import { cn } from "~/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
     motion,
-    AnimatePresence,
     useScroll,
     useMotionValueEvent,
 } from "motion/react";
@@ -92,7 +91,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
                 boxShadow: visible
                     ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
                     : "none",
-                width: visible ? "40%" : "100%",
+                width: visible ? "80%" : "100%",
                 y: visible ? 20 : 0,
             }}
             transition={{
@@ -114,11 +113,11 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
 };
 
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
-    const [hovered, setHovered] = useState<number | null>(null);
+    // const [hovered, setHovered] = useState<number | null>(null);
 
     return (
         <motion.div
-            onMouseLeave={() => setHovered(null)}
+            // onMouseLeave={() => setHovered(null)}
             className={cn(
                 "absolute inset-0 hidden flex-row items-center justify-end space-x-2 px-4 text-sm font-medium text-slate-400 transition duration-200 hover:text-slate-300 lg:flex lg:space-x-2",
                 className,
@@ -126,21 +125,22 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         >
             {items.map((item, idx) => (
                 <Link
-                    onMouseEnter={() => setHovered(idx)}
+                    // onMouseEnter={() => setHovered(idx)}
                     onClick={onItemClick}
                     className={cn(
-                        "relative px-4 py-2 text-slate-300 rounded-full",
-                        items.some(item => item.name === "Calendar") && item.name === "Calendar" ? "bg-cn-red text-white transition-color duration-200" : "hover:text-slate-300",
+                        "relative px-4 py-2 text-slate-300 rounded-full hover:bg-cn-red/40 transition duration-200",
+                        items.some(item => item.name === "Calendar") && item.name === "Calendar" ? "bg-cn-red text-white transition-color duration-200 hover:bg-cn-red" : "hover:text-slate-300",
                     )}
                     key={`link-${idx}`}
                     to={item.link}
                 >
-                    {hovered === idx && (
+                    {/* {hovered === idx && (
                         <motion.div
-                            layoutId="hovered"
-                            className="absolute inset-0 h-full w-full rounded-full bg-cn-red/20"
+                            // layoutId="hovered"
+                            // this makes the background appear behind the hovered item and transition smoothly between items
+                            className="absolute inset-0 h-full w-full rounded-full bg-cn-red/40"
                         />
-                    )}
+                    )} */}
                     <span className="relative z-20">{item.name}</span>
                 </Link>
             ))}

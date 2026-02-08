@@ -2,7 +2,6 @@ import { IconBrandInstagram as Instagram, IconBrandYoutube as Youtube, IconBrand
 import { RaceCountdownCounter } from "~/components/common/counter";
 import UpdateCard from "../common/update-card";
 
-
 const socialStats = [
     { icon: Reddit, count: "125K+", label: "Members", color: "text-cn-orange" },
     { icon: Instagram, count: "89K+", label: "Followers", color: "text-cn-pink" },
@@ -18,8 +17,8 @@ const Hero = () => {
                     {/* Left Column */}
                     <motion.div
                         className="space-y-8"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {/* Logo/Brand */}
