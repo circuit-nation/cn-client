@@ -56,6 +56,29 @@
   --cn-green: oklch(0.5500 0.1500 150.0000);
   --cn-amber: oklch(0.5800 0.1600 70.0000);
 
+  /* Team colors */
+  --team-f1-redbull: oklch(0.5200 0.1850 258.0000);
+  --team-f1-mercedes: oklch(0.7400 0.1400 175.0000);
+  --team-f1-ferrari: oklch(0.5800 0.2000 32.0000);
+  --team-f1-mclaren: oklch(0.7100 0.1950 50.0000);
+  --team-f1-aston: oklch(0.5600 0.1600 155.0000);
+  --team-f1-alpine: oklch(0.6800 0.1400 230.0000);
+  --team-f1-williams: oklch(0.7200 0.1500 240.0000);
+  --team-f1-audi: oklch(0.7000 0.0100 0.0000);
+  --team-f1-sauber: oklch(0.6500 0.1700 145.0000);
+  --team-f1-vcarb: oklch(0.6400 0.1600 260.0000);
+
+  --team-motogp-ducati: oklch(0.5800 0.2100 32.0000);
+  --team-motogp-ktm: oklch(0.7000 0.2000 55.0000);
+  --team-motogp-aprilia: oklch(0.5200 0.1500 140.0000);
+  --team-motogp-yamaha: oklch(0.5600 0.1900 255.0000);
+  --team-motogp-honda: oklch(0.5600 0.2000 28.0000);
+  --team-motogp-pramac: oklch(0.6000 0.1600 300.0000);
+  --team-motogp-gresini: oklch(0.6900 0.1400 230.0000);
+  --team-motogp-gasgas: oklch(0.6500 0.1900 15.0000);
+  --team-motogp-lcr: oklch(0.7000 0.1600 45.0000);
+  --team-motogp-trackhouse: oklch(0.6200 0.1500 195.0000);
+
   /* Typography */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;

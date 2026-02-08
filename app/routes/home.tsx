@@ -4,7 +4,7 @@ import Lenis from "lenis";
 import HeroSection from "~/components/home/hero";
 import HomeHeader from "~/components/home/header";
 import RaceCountdown from "~/components/home/race-countdown";
-import Leaderboards from "~/components/home/leaderboard";
+import Leaderboards from "~/components/home/standings-grid";
 import SocialWall from "~/components/home/social-wall";
 import Footer from "~/components/home/footer";
 import About from "~/components/home/about";
@@ -43,9 +43,8 @@ const Home = () => {
       <HomeHeader />
       <HeroSection />
       <ArticleShowcase />
-      {/* <RaceCountdown f1Image="/assets/f1-car.jpg" motoGpImage="/assets/motogp-bike.jpg" />
-      <Leaderboards /> */}
       <SocialWall />
+      <Leaderboards />
       <About />
       <Footer />
     </main>
