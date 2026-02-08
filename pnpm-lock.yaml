@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/mea-culpa':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@netlify/vite-plugin-react-router':
         specifier: ^2.1.2
         version: 2.1.2(react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2))
@@ -413,6 +416,9 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@fontsource/mea-culpa@5.2.8':
+    resolution: {integrity: sha512-Ap4BTqVimGazKYuMvLDigvHqiL7A4h6itvb40mZQEH8SKGEwM1qqp5h5P2bcyjMmvc1wQReaZ9oL0EYs9/My4g==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2611,6 +2617,8 @@ snapshots:
       react-dom: 19.2.3(react@19.2.3)
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@fontsource/mea-culpa@5.2.8': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

@@ -48,6 +48,17 @@ export default function About() {
                         Don't hesitate to contact us on the social networks if you have any suggestions for analyses, stats or data to add to the dashboard.
                     </motion.p>
                 </div>
+                <motion.div
+                    className="font-handwriting flex gap-8 text-5xl mt-8"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
+                    <h3>Piyush Sharma</h3>
+                    <h3>&</h3>
+                    <h3>Pranav Tripathi</h3>
+                </motion.div>
             </section >
         </>
     )
