@@ -1,4 +1,5 @@
 import { Trophy } from "lucide-react";
+import { motion } from "motion/react";
 import ComponentHeading from "../common/component-heading";
 import { RaceCountdownCounter } from "../common/counter";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -383,7 +384,13 @@ const TeamTable = ({ rows }: { rows: TeamStanding[] }) => (
 );
 
 const EventCard = ({ event }: { event: EventInfo }) => (
-    <Card className="overflow-hidden border-muted/40 bg-card/80 gap-0 py-0">
+    <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: true, margin: "-80px" }}
+    >
+        <Card className="overflow-hidden border-muted/40 bg-card/80 gap-0 py-0">
         <div className="relative h-32">
             <img
                 src={event.trackImage}
@@ -418,40 +425,62 @@ const EventCard = ({ event }: { event: EventInfo }) => (
                 </div>
             </div>
         </CardContent>
-    </Card>
+        </Card>
+    </motion.div>
 );
 
 const StandingsSection = ({ payload }: { payload: StandingsPayload }) => (
     <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-1 border rounded-lg">
-            <RaceCountdownCounter
-                title={payload.counter.title}
-                subtitle={payload.counter.subtitle}
-                targetDate={payload.counter.targetDate}
-                accentClass={payload.counter.accentClass}
-                backgroundImage={payload.counter.backgroundImage}
-            />
+            <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                viewport={{ once: true, margin: "-80px" }}
+            >
+                <RaceCountdownCounter
+                    title={payload.counter.title}
+                    subtitle={payload.counter.subtitle}
+                    targetDate={payload.counter.targetDate}
+                    accentClass={payload.counter.accentClass}
+                    backgroundImage={payload.counter.backgroundImage}
+                />
+            </motion.div>
             <EventCard event={payload.event} />
         </div>
         <div className="lg:col-span-2 grid gap-6 xl:grid-cols-2">
-            <Card className="border bg-card/80">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-lg">Driver Standings</CardTitle>
-                    <p className="text-sm text-muted-foreground">Top 5 in the championship</p>
-                </CardHeader>
-                <CardContent>
-                    <DriverTable rows={payload.drivers} />
-                </CardContent>
-            </Card>
-            <Card className="border bg-card/80">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-lg">Team Standings</CardTitle>
-                    <p className="text-sm text-muted-foreground">Constructor rankings, top 5</p>
-                </CardHeader>
-                <CardContent>
-                    <TeamTable rows={payload.teams} />
-                </CardContent>
-            </Card>
+            <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                viewport={{ once: true, margin: "-80px" }}
+            >
+                <Card className="border bg-card/80">
+                    <CardHeader className="space-y-1">
+                        <CardTitle className="text-lg">Driver Standings</CardTitle>
+                        <p className="text-sm text-muted-foreground">Top 5 in the championship</p>
+                    </CardHeader>
+                    <CardContent>
+                        <DriverTable rows={payload.drivers} />
+                    </CardContent>
+                </Card>
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                viewport={{ once: true, margin: "-80px" }}
+            >
+                <Card className="border bg-card/80">
+                    <CardHeader className="space-y-1">
+                        <CardTitle className="text-lg">Team Standings</CardTitle>
+                        <p className="text-sm text-muted-foreground">Constructor rankings, top 5</p>
+                    </CardHeader>
+                    <CardContent>
+                        <TeamTable rows={payload.teams} />
+                    </CardContent>
+                </Card>
+            </motion.div>
         </div>
     </div>
 );
@@ -460,18 +489,32 @@ const Leaderboards = () => {
     return (
         <section className="py-20 bg-linear-to-b from-background to-card/50">
             <div className="mx-auto px-4 space-y-4">
-                <ComponentHeading
-                    title="Points and Leaders"
-                    subtitle="Bento-style view of the latest standings with the next race countdown and event details."
-                    badgeText="Standings"
-                    badgeIcon={<Trophy data-icon="inline-start" />}
-                />
+                <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
+                    <ComponentHeading
+                        title="Points and Leaders"
+                        subtitle="Bento-style view of the latest standings with the next race countdown and event details."
+                        badgeText="Standings"
+                        badgeIcon={<Trophy data-icon="inline-start" />}
+                    />
+                </motion.div>
 
                 <Tabs defaultValue="f1" className="w-full">
-                    <TabsList className="mb-8 grid w-full grid-cols-2 bg-secondary/50">
-                        <TabsTrigger value="f1">Formula 1</TabsTrigger>
-                        <TabsTrigger value="motogp">MotoGP</TabsTrigger>
-                    </TabsList>
+                    <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                        viewport={{ once: true, margin: "-80px" }}
+                    >
+                        <TabsList className="mb-8 grid w-full grid-cols-2 bg-secondary/50">
+                            <TabsTrigger value="f1">Formula 1</TabsTrigger>
+                            <TabsTrigger value="motogp">MotoGP</TabsTrigger>
+                        </TabsList>
+                    </motion.div>
                     <TabsContent value="f1" className="mt-0">
                         <StandingsSection payload={f1Standings} />
                     </TabsContent>

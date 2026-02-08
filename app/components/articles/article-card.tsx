@@ -13,6 +13,7 @@ import {
 } from "~/components/ui/popover"
 import { cn, formatRelativeTime, formatViews } from "~/lib/utils"
 import { Link } from "react-router"
+import { motion } from "motion/react"
 
 type ArticleCardProps = {
     title: string
@@ -40,73 +41,80 @@ export default function ArticleCard({
     const hasMoreTags = tags.length > 2
 
     return (
-        <Card className={cn("overflow-hidden pb-4 pt-1 group", className)}>
-            <div className="relative">
-                <div className="p-4">
-                    <img
-                        src={imageUrl}
-                        alt=""
-                        className="h-48 w-full rounded-sm object-cover group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                    />
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, margin: "-80px" }}
+        >
+            <Card className={cn("overflow-hidden pb-4 pt-1 group", className)}>
+                <div className="relative">
+                    <div className="p-4">
+                        <img
+                            src={imageUrl}
+                            alt=""
+                            className="h-48 w-full rounded-sm object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div className="absolute right-6 bottom-6 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground shadow">
+                        <time dateTime={new Date(publishedAt).toISOString()}>
+                            {relativeTime}
+                        </time>
+                    </div>
                 </div>
-                <div className="absolute right-6 bottom-6 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground shadow">
-                    <time dateTime={new Date(publishedAt).toISOString()}>
-                        {relativeTime}
-                    </time>
-                </div>
-            </div>
-            <CardHeader className="gap-2">
-                <CardTitle className="line-clamp-2 text-lg md:text-xl">
-                    <Link to={link} className="hover:underline">
-                        {title}
-                    </Link>
-                </CardTitle>
-                <CardDescription className="line-clamp-3">
-                    {description}
-                </CardDescription>
-            </CardHeader>
-            <CardFooter className="flex flex-wrap items-center gap-2 pt-4">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <button
-                            type="button"
-                            className="flex flex-wrap gap-2"
-                            aria-label="View all tags"
-                        >
-                            {visibleTags.map((tag) => (
-                                <Badge key={tag} variant="secondary">
-                                    {tag}
-                                </Badge>
-                            ))}
-                            {hasMoreTags ? (
-                                <Badge variant="outline">+{tags.length - 2}</Badge>
-                            ) : null}
-                        </button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-56">
-                        <div className="text-xs font-semibold text-muted-foreground">
-                            Tags
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                            {tags.length ? (
-                                tags.map((tag) => (
+                <CardHeader className="gap-2">
+                    <CardTitle className="line-clamp-2 text-lg md:text-xl">
+                        <Link to={link} className="hover:underline">
+                            {title}
+                        </Link>
+                    </CardTitle>
+                    <CardDescription className="line-clamp-3">
+                        {description}
+                    </CardDescription>
+                </CardHeader>
+                <CardFooter className="flex flex-wrap items-center gap-2 pt-4">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <button
+                                type="button"
+                                className="flex flex-wrap gap-2"
+                                aria-label="View all tags"
+                            >
+                                {visibleTags.map((tag) => (
                                     <Badge key={tag} variant="secondary">
                                         {tag}
                                     </Badge>
-                                ))
-                            ) : (
-                                <span className="text-xs text-muted-foreground">
-                                    No tags
-                                </span>
-                            )}
-                        </div>
-                    </PopoverContent>
-                </Popover>
-                <div className="ml-auto text-xs text-muted-foreground">
-                    {formatViews(views)} views
-                </div>
-            </CardFooter>
-        </Card>
+                                ))}
+                                {hasMoreTags ? (
+                                    <Badge variant="outline">+{tags.length - 2}</Badge>
+                                ) : null}
+                            </button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-56">
+                            <div className="text-xs font-semibold text-muted-foreground">
+                                Tags
+                            </div>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                {tags.length ? (
+                                    tags.map((tag) => (
+                                        <Badge key={tag} variant="secondary">
+                                            {tag}
+                                        </Badge>
+                                    ))
+                                ) : (
+                                    <span className="text-xs text-muted-foreground">
+                                        No tags
+                                    </span>
+                                )}
+                            </div>
+                        </PopoverContent>
+                    </Popover>
+                    <div className="ml-auto text-xs text-muted-foreground">
+                        {formatViews(views)} views
+                    </div>
+                </CardFooter>
+            </Card>
+        </motion.div>
     )
 }

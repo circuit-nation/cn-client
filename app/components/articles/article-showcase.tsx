@@ -1,6 +1,7 @@
 import ArticleCard from "./article-card"
 import ComponentHeading from "../common/component-heading"
 import { Newspaper } from "lucide-react"
+import { motion } from "motion/react"
 
 const articles = [
     {
@@ -53,19 +54,30 @@ export default function ArticleShowcase() {
     return (
         <>
             <div className="space-y-4" id="articles">
-                <div>
+                <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
                     <ComponentHeading
                         title="Our thoughts out loud"
                         subtitle="Stay up to speed with the latest news, insights, and analysis from the world of motorsports."
                         badgeText="Articles"
                         badgeIcon={<Newspaper data-icon="align-start" />}
                     />
-                </div>
-                <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                </motion.div>
+                <motion.section
+                    className="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
                     {articles.map((article) => (
                         <ArticleCard key={article.title} {...article} />
                     ))}
-                </section>
+                </motion.section>
             </div>
         </>
     )
