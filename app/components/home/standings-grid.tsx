@@ -48,7 +48,7 @@ type EventInfo = {
 type StandingsPayload = {
     counter: {
         title: string;
-        subtitle: string;
+        subtitle?: string;
         targetDate: Date;
         accentClass: string;
         backgroundImage: string;
@@ -66,8 +66,7 @@ const teamLogo = (seed: string) =>
 
 const f1Standings: StandingsPayload = {
     counter: {
-        title: "Next F1 Weekend",
-        subtitle: "Melbourne unlocks the 2026 title chase",
+        title: "Formula 1",
         targetDate: new Date("2026-03-14T04:00:00Z"),
         accentClass: "text-cn-red",
         backgroundImage: "/assets/f1-car.png",
@@ -79,7 +78,7 @@ const f1Standings: StandingsPayload = {
         dateLabel: "March 14-16, 2026",
         circuit: "Albert Park Circuit",
         laps: "58 laps",
-        trackImage: "/assets/hero-motorsport.jpg",
+        trackImage: "/assets/circuits/australia.png",
         accentClass: "text-cn-red",
     },
     drivers: [
@@ -175,8 +174,7 @@ const f1Standings: StandingsPayload = {
 
 const motoGpStandings: StandingsPayload = {
     counter: {
-        title: "Next MotoGP",
-        subtitle: "Qatar night race kicks off the season",
+        title: "MotoGP",
         targetDate: new Date("2026-03-07T17:00:00Z"),
         accentClass: "text-cn-blue-dark",
         backgroundImage: "/assets/motogp-bike.png",
@@ -188,7 +186,7 @@ const motoGpStandings: StandingsPayload = {
         dateLabel: "March 7-9, 2026",
         circuit: "Lusail International Circuit",
         laps: "22 laps",
-        trackImage: "/assets/calendar-image.jpeg",
+        trackImage: "/assets/circuits/australia.png",
         accentClass: "text-cn-blue-dark",
     },
     drivers: [
@@ -385,53 +383,56 @@ const TeamTable = ({ rows }: { rows: TeamStanding[] }) => (
 
 const EventCard = ({ event }: { event: EventInfo }) => (
     <motion.div
+        className="h-full"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         viewport={{ once: true, margin: "-80px" }}
     >
-        <Card className="overflow-hidden border-muted/40 bg-card/80 gap-0 py-0">
-        <div className="relative h-32">
-            <img
-                src={event.trackImage}
-                alt={event.name}
-                className="h-full w-full object-cover opacity-80"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/40 to-transparent" />
-            <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                <span className={cn("text-sm font-semibold uppercase tracking-[0.2em]", event.accentClass)}>
-                    {event.round}
-                </span>
-                <h4 className="text-lg font-semibold">{event.name}</h4>
-            </div>
-        </div>
-        <CardContent className="space-y-3 pb-6 pt-4">
-            <div>
-                <p className="text-sm text-muted-foreground">Location</p>
-                <p className="font-semibold">{event.location}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-                <div>
-                    <p className="text-xs text-muted-foreground">Dates</p>
-                    <p className="text-sm font-semibold">{event.dateLabel}</p>
+        <Card className="border-none flex h-full flex-col">
+            <CardHeader className="flex flex-col justify-between md:flex-row">
+                <div className="flex flex-col justify-end">
+                    <span className={cn("text-sm font-semibold uppercase tracking-tighter", event.accentClass)}>
+                        {event.round}
+                    </span>
+                    <h4 className="text-lg font-semibold">{event.name}</h4>
                 </div>
                 <div>
-                    <p className="text-xs text-muted-foreground">Circuit</p>
-                    <p className="text-sm font-semibold">{event.circuit}</p>
+                    <img
+                        src={event.trackImage}
+                        alt={`${event.name} track`}
+                        className="h-18 w-full object-cover"
+                        loading="lazy"
+                    />
                 </div>
+            </CardHeader>
+            <CardContent className="flex h-full flex-col gap-4">
                 <div>
-                    <p className="text-xs text-muted-foreground">Distance</p>
-                    <p className="text-sm font-semibold">{event.laps}</p>
+                    <p className="text-sm text-muted-foreground">Location</p>
+                    <p className="font-semibold">{event.location}</p>
                 </div>
-            </div>
-        </CardContent>
+                <div className="grid grid-cols-2 gap-3">
+                    <div>
+                        <p className="text-xs text-muted-foreground">Dates</p>
+                        <p className="text-sm font-semibold">{event.dateLabel}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-muted-foreground">Circuit</p>
+                        <p className="text-sm font-semibold line-clamp-1">{event.circuit}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-muted-foreground">Distance</p>
+                        <p className="text-sm font-semibold">{event.laps}</p>
+                    </div>
+                </div>
+            </CardContent>
         </Card>
     </motion.div>
 );
 
 const StandingsSection = ({ payload }: { payload: StandingsPayload }) => (
-    <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-1 border rounded-lg">
+    <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+        <div className="lg:col-span-1 border rounded-lg flex h-full flex-col gap-4">
             <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -446,37 +447,41 @@ const StandingsSection = ({ payload }: { payload: StandingsPayload }) => (
                     backgroundImage={payload.counter.backgroundImage}
                 />
             </motion.div>
-            <EventCard event={payload.event} />
+            <div className="flex-1">
+                <EventCard event={payload.event} />
+            </div>
         </div>
-        <div className="lg:col-span-2 grid gap-6 xl:grid-cols-2">
+        <div className="lg:col-span-2 grid gap-4 lg:grid-cols-2">
             <motion.div
+                className="h-full"
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
                 viewport={{ once: true, margin: "-80px" }}
             >
-                <Card className="border bg-card/80">
+                <Card className="border bg-card/80 flex h-full flex-col">
                     <CardHeader className="space-y-1">
                         <CardTitle className="text-lg">Driver Standings</CardTitle>
                         <p className="text-sm text-muted-foreground">Top 5 in the championship</p>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex-1">
                         <DriverTable rows={payload.drivers} />
                     </CardContent>
                 </Card>
             </motion.div>
             <motion.div
+                className="h-full"
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 viewport={{ once: true, margin: "-80px" }}
             >
-                <Card className="border bg-card/80">
+                <Card className="border bg-card/80 flex h-full flex-col">
                     <CardHeader className="space-y-1">
                         <CardTitle className="text-lg">Team Standings</CardTitle>
                         <p className="text-sm text-muted-foreground">Constructor rankings, top 5</p>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex-1">
                         <TeamTable rows={payload.teams} />
                     </CardContent>
                 </Card>
@@ -487,7 +492,7 @@ const StandingsSection = ({ payload }: { payload: StandingsPayload }) => (
 
 const Leaderboards = () => {
     return (
-        <section className="py-20 bg-linear-to-b from-background to-card/50">
+        <section className="py-20">
             <div className="mx-auto px-4 space-y-4">
                 <motion.div
                     initial={{ opacity: 0, y: 8 }}
@@ -510,7 +515,7 @@ const Leaderboards = () => {
                         transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
                         viewport={{ once: true, margin: "-80px" }}
                     >
-                        <TabsList className="mb-8 grid w-full grid-cols-2 bg-secondary/50">
+                        <TabsList className="mb-3 grid w-full grid-cols-2 bg-secondary/50">
                             <TabsTrigger value="f1">Formula 1</TabsTrigger>
                             <TabsTrigger value="motogp">MotoGP</TabsTrigger>
                         </TabsList>
