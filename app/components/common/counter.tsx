@@ -7,21 +7,19 @@ type TimeLeft = {
 	days: number;
 	hours: number;
 	minutes: number;
-	seconds: number;
 };
 
 const calculateTimeLeft = (targetDate: Date): TimeLeft => {
 	const difference = +targetDate - +new Date();
 
 	if (difference <= 0) {
-		return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+		return { days: 0, hours: 0, minutes: 0 };
 	}
 
 	return {
 		days: Math.floor(difference / (1000 * 60 * 60 * 24)),
 		hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
 		minutes: Math.floor((difference / 1000 / 60) % 60),
-		seconds: Math.floor((difference / 1000) % 60),
 	};
 };
 
@@ -61,7 +59,6 @@ const RaceCountdownCounter = ({ title, subtitle, targetDate, accentClass, backgr
 			{ label: "Days", value: timeLeft.days },
 			{ label: "Hours", value: timeLeft.hours },
 			{ label: "Min", value: timeLeft.minutes },
-			{ label: "Sec", value: timeLeft.seconds },
 		],
 		[timeLeft]
 	);
@@ -81,7 +78,7 @@ const RaceCountdownCounter = ({ title, subtitle, targetDate, accentClass, backgr
 					{subtitle ? <span className="text-xs text-muted-foreground">{subtitle}</span> : null}
 				</CardHeader>
 				<CardContent>
-					<div className="grid grid-cols-4 gap-2">
+					<div className="grid grid-cols-3 gap-2">
 						{units.map((unit) => (
 							<CountdownUnit
 								key={unit.label}
