@@ -1,5 +1,3 @@
-"use server";
-
 import { getConvexClient } from "~/lib/convex.server";
 import { api } from "../../convex/_generated/api";
 import type { NextEventsPayload } from "~/schema";
