@@ -1,5 +1,8 @@
+import type { SVGProps } from "react";
+import React from "react";
 import { Trophy } from "lucide-react";
 import { motion } from "motion/react";
+import * as Flags from "country-flag-icons/react/3x2";
 import ComponentHeading from "../common/component-heading";
 import { RaceCountdownCounter } from "../common/counter";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -14,6 +17,7 @@ import {
     TableRow,
 } from "~/components/ui/table";
 import { cn } from "~/lib/utils";
+import type { EventCardInfo, EventParsed } from "~/schema";
 
 type DriverStanding = {
     position: number;
@@ -34,26 +38,8 @@ type TeamStanding = {
     teamColor: string;
 };
 
-type EventInfo = {
-    name: string;
-    location: string;
-    round: string;
-    dateLabel: string;
-    circuit: string;
-    laps: string;
-    trackImage: string;
-    accentClass: string;
-};
-
 type StandingsPayload = {
-    counter: {
-        title: string;
-        subtitle?: string;
-        targetDate: Date;
-        accentClass: string;
-        backgroundImage: string;
-    };
-    event: EventInfo;
+    event: EventCardInfo;
     drivers: DriverStanding[];
     teams: TeamStanding[];
 };
@@ -65,20 +51,15 @@ const teamLogo = (seed: string) =>
     `https://api.dicebear.com/7.x/shapes/svg?seed=${seed}`;
 
 const f1Standings: StandingsPayload = {
-    counter: {
-        title: "Formula 1",
-        targetDate: new Date("2026-03-14T04:00:00Z"),
-        accentClass: "text-cn-red",
-        backgroundImage: "/assets/f1-car.png",
-    },
     event: {
         name: "Australian Grand Prix",
         location: "Melbourne, Australia",
+        countryCode: "AU",
         round: "Round 1",
         dateLabel: "March 14-16, 2026",
         circuit: "Albert Park Circuit",
         laps: "58 laps",
-        trackImage: "/assets/circuits/australia.png",
+        trackImage: "/assets/circuits/bahrain.png",
         accentClass: "text-cn-red",
     },
     drivers: [
@@ -173,15 +154,10 @@ const f1Standings: StandingsPayload = {
 };
 
 const motoGpStandings: StandingsPayload = {
-    counter: {
-        title: "MotoGP",
-        targetDate: new Date("2026-03-07T17:00:00Z"),
-        accentClass: "text-cn-blue-dark",
-        backgroundImage: "/assets/motogp-bike.png",
-    },
     event: {
         name: "Qatar Grand Prix",
         location: "Lusail, Qatar",
+        countryCode: "QA",
         round: "Round 1",
         dateLabel: "March 7-9, 2026",
         circuit: "Lusail International Circuit",
@@ -381,116 +357,230 @@ const TeamTable = ({ rows }: { rows: TeamStanding[] }) => (
     </Table>
 );
 
-const EventCard = ({ event }: { event: EventInfo }) => (
-    <motion.div
-        className="h-full"
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        viewport={{ once: true, margin: "-80px" }}
-    >
-        <Card className="border-none flex h-full flex-col">
-            <CardHeader className="flex flex-col justify-between md:flex-row">
-                <div className="flex flex-col justify-end">
-                    <span className={cn("text-sm font-semibold uppercase tracking-tighter", event.accentClass)}>
-                        {event.round}
-                    </span>
-                    <h4 className="text-lg font-semibold">{event.name}</h4>
-                </div>
-                <div>
-                    <img
-                        src={event.trackImage}
-                        alt={`${event.name} track`}
-                        className="h-18 w-full object-cover"
-                        loading="lazy"
-                    />
-                </div>
-            </CardHeader>
-            <CardContent className="flex h-full flex-col gap-4">
-                <div>
-                    <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="font-semibold">{event.location}</p>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                    <div>
-                        <p className="text-xs text-muted-foreground">Dates</p>
-                        <p className="text-sm font-semibold">{event.dateLabel}</p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-muted-foreground">Circuit</p>
-                        <p className="text-sm font-semibold line-clamp-1">{event.circuit}</p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-muted-foreground">Distance</p>
-                        <p className="text-sm font-semibold">{event.laps}</p>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    </motion.div>
-);
+const formatEventDateRange = (startAt: string, endAt: string): string | null => {
+    // if both are on the same day, just show one date
+    const startDate = new Date(startAt);
+    const endDate = new Date(endAt);
 
-const StandingsSection = ({ payload }: { payload: StandingsPayload }) => (
-    <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
-        <div className="lg:col-span-1 border rounded-lg flex h-full flex-col gap-4">
-            <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                viewport={{ once: true, margin: "-80px" }}
-            >
-                <RaceCountdownCounter
-                    title={payload.counter.title}
-                    subtitle={payload.counter.subtitle}
-                    targetDate={payload.counter.targetDate}
-                    accentClass={payload.counter.accentClass}
-                    backgroundImage={payload.counter.backgroundImage}
-                />
-            </motion.div>
-            <div className="flex-1">
-                <EventCard event={payload.event} />
+    if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+        return null;
+    }
+
+    const sameMonth =
+        startDate.getFullYear() === endDate.getFullYear() &&
+        startDate.getMonth() === endDate.getMonth();
+
+    const sameDay = sameMonth && startDate.getDate() === endDate.getDate();
+
+    if (sameDay) {
+        return new Intl.DateTimeFormat("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        }).format(startDate);
+    }
+
+    const monthDay = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+    });
+    const dayOnly = new Intl.DateTimeFormat("en-US", { day: "numeric" });
+    const yearOnly = new Intl.DateTimeFormat("en-US", { year: "numeric" });
+
+    if (sameMonth) {
+        return `${monthDay.format(startDate)}-${dayOnly.format(endDate)}, ${yearOnly.format(endDate)}`;
+    }
+
+    return `${monthDay.format(startDate)} - ${monthDay.format(endDate)}, ${yearOnly.format(endDate)}`;
+};
+
+type FlagComponent = (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
+
+const getFlagComponent = (countryCode?: string): FlagComponent | null => {
+    if (!countryCode) {
+        return null;
+    }
+
+    const normalizedCode = countryCode.trim().toUpperCase();
+    return (Flags as Record<string, FlagComponent>)[normalizedCode] ?? null;
+};
+
+const buildEventCardInfo = (
+    event: EventParsed | undefined,
+    fallback: EventCardInfo,
+): EventCardInfo => {
+    if (!event) {
+        return fallback;
+    }
+
+    const dateLabel = formatEventDateRange(event.event_start_at, event.event_end_at);
+
+    return {
+        ...fallback,
+        name: event.title || fallback.name,
+        location: event.circuitData?.location_str || fallback.location,
+        countryCode: event.circuitData?.country_code || fallback.countryCode,
+        round: event.round ? `Round ${event.round}` : fallback.round,
+        dateLabel: dateLabel || fallback.dateLabel,
+        circuit: event.circuitData?.name || fallback.circuit,
+        laps: event.circuitData?.laps ? `${event.circuitData.laps} laps` : fallback.laps,
+        trackImage: event.circuitData?.image || fallback.trackImage,
+    };
+};
+
+const EventCard = ({
+    event,
+    className,
+}: {
+    event: EventCardInfo;
+    className?: string;
+}) => {
+    const Flag = getFlagComponent(event.countryCode);
+
+    return (
+        <motion.div
+            className={cn("h-full", className)}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, margin: "-80px" }}
+        >
+            <div className="flex h-full flex-col">
+                <div className="group relative overflow-hidden px-6 pb-4 pt-5">
+                    <div
+                        className="absolute inset-y-0 right-0 w-2/3 bg-cover bg-right"
+                        style={{ backgroundImage: `url(${event.trackImage})` }}
+                        aria-hidden="true"
+                    />
+                    <div
+                        className="absolute inset-0 bg-linear-to-r from-card via-card/90 to-card/60"
+                        aria-hidden="true"
+                    />
+                    <div className="relative flex flex-col gap-3">
+                        <span className={cn("text-xs font-semibold uppercase tracking-[0.2em]", event.accentClass)}>
+                            {event.round}
+                        </span>
+                        <div className="space-y-1">
+                            <h4 className="text-lg font-semibold leading-tight">{event.name}</h4>
+                            <div className="flex items-center gap-2 text-sm">
+                                {Flag ? (
+                                    <Flag
+                                        className="aspect-video h-4 w-auto rounded-sm object-cover"
+                                        aria-label={`${event.location} flag`}
+                                    />
+                                ) : null}
+                                <span className="font-medium text-muted-foreground">{event.location}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-4 flex-1 border-t px-6 py-4">
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">Dates</p>
+                            <p className="text-sm font-semibold">{event.dateLabel}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">Circuit</p>
+                            <p className="text-sm font-semibold line-clamp-1">{event.circuit}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground">Distance</p>
+                            <p className="text-sm font-semibold">{event.laps}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+const StandingsSection = ({
+    payload,
+    counterData,
+    sport,
+}: {
+    payload: StandingsPayload;
+    counterData: EventParsed[];
+    sport: "formula" | "motogp";
+}) => {
+    const f1Data = counterData.find((event) => event.sportData?.type === "formula");
+    const motoGpData = counterData.find((event) => event.sportData?.type === "motogp");
+    const countdownData = sport === "formula" ? f1Data : motoGpData;
+    const eventCard = buildEventCardInfo(countdownData, payload.event);
+    return (
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+            <Card className="lg:col-span-1 flex h-full flex-col overflow-hidden border bg-card/80">
+                <motion.div
+                    className="border-b"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
+                    {countdownData && (
+                        <RaceCountdownCounter
+                            title={countdownData.sportData?.name || (sport === "formula" ? "Formula 1" : "MotoGP")}
+                            subtitle={countdownData.title}
+                            targetDate={new Date(countdownData.event_start_at)}
+                            accentClass={sport === "formula" ? "text-cn-red" : "text-cn-blue"}
+                            backgroundImage={
+                                sport === "formula"
+                                    ? "/assets/f1-car.png"
+                                    : "/assets/motogp-bike.png"
+                            }
+                        />
+                    )}
+                </motion.div>
+                <div className="flex-1">
+                    <EventCard event={eventCard} />
+                </div>
+            </Card>
+            <div className="lg:col-span-2 grid gap-4 lg:grid-cols-2">
+                <motion.div
+                    className="h-full"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
+                    <Card className="border bg-card/80 flex h-full flex-col">
+                        <CardHeader className="space-y-1">
+                            <CardTitle className="text-lg">Driver Standings</CardTitle>
+                            <p className="text-sm text-muted-foreground">Top 5 in the championship</p>
+                        </CardHeader>
+                        <CardContent className="flex-1">
+                            <DriverTable rows={payload.drivers} />
+                        </CardContent>
+                    </Card>
+                </motion.div>
+                <motion.div
+                    className="h-full"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true, margin: "-80px" }}
+                >
+                    <Card className="border bg-card/80 flex h-full flex-col">
+                        <CardHeader className="space-y-1">
+                            <CardTitle className="text-lg">Team Standings</CardTitle>
+                            <p className="text-sm text-muted-foreground">Constructor rankings, top 5</p>
+                        </CardHeader>
+                        <CardContent className="flex-1">
+                            <TeamTable rows={payload.teams} />
+                        </CardContent>
+                    </Card>
+                </motion.div>
             </div>
         </div>
-        <div className="lg:col-span-2 grid gap-4 lg:grid-cols-2">
-            <motion.div
-                className="h-full"
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-                viewport={{ once: true, margin: "-80px" }}
-            >
-                <Card className="border bg-card/80 flex h-full flex-col">
-                    <CardHeader className="space-y-1">
-                        <CardTitle className="text-lg">Driver Standings</CardTitle>
-                        <p className="text-sm text-muted-foreground">Top 5 in the championship</p>
-                    </CardHeader>
-                    <CardContent className="flex-1">
-                        <DriverTable rows={payload.drivers} />
-                    </CardContent>
-                </Card>
-            </motion.div>
-            <motion.div
-                className="h-full"
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                viewport={{ once: true, margin: "-80px" }}
-            >
-                <Card className="border bg-card/80 flex h-full flex-col">
-                    <CardHeader className="space-y-1">
-                        <CardTitle className="text-lg">Team Standings</CardTitle>
-                        <p className="text-sm text-muted-foreground">Constructor rankings, top 5</p>
-                    </CardHeader>
-                    <CardContent className="flex-1">
-                        <TeamTable rows={payload.teams} />
-                    </CardContent>
-                </Card>
-            </motion.div>
-        </div>
-    </div>
-);
+    );
+}
 
-const Leaderboards = () => {
+type LeaderboardsProps = {
+    counterData: EventParsed[];
+}
+
+const Leaderboards = ({ counterData }: LeaderboardsProps) => {
     return (
         <section className="py-20">
             <div className="mx-auto px-4 space-y-4">
@@ -521,10 +611,18 @@ const Leaderboards = () => {
                         </TabsList>
                     </motion.div>
                     <TabsContent value="f1" className="mt-0">
-                        <StandingsSection payload={f1Standings} />
+                        <StandingsSection
+                            counterData={counterData}
+                            payload={f1Standings}
+                            sport="formula"
+                        />
                     </TabsContent>
                     <TabsContent value="motogp" className="mt-0">
-                        <StandingsSection payload={motoGpStandings} />
+                        <StandingsSection
+                            counterData={counterData}
+                            payload={motoGpStandings}
+                            sport="motogp"
+                        />
                     </TabsContent>
                 </Tabs>
             </div>

@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import HeroSection from "~/components/home/hero";
 import HomeHeader from "~/components/home/header";
-import RaceCountdown from "~/components/home/race-countdown";
 import Leaderboards from "~/components/home/standings-grid";
 import SocialWall from "~/components/home/social-wall";
 import Footer from "~/components/home/footer";
 import About from "~/components/home/about";
 import ArticleShowcase from "~/components/articles/article-showcase";
+import fetchNextEvents from "~/db/next-events";
+import type { NextEventsResponse } from "~/schema";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -17,7 +18,12 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-const Home = () => {
+export async function loader({ request }: Route.LoaderArgs) {
+  const nextEvents = await fetchNextEvents();
+  return { nextEvents } satisfies NextEventsResponse;
+}
+
+const Home = ({ loaderData }: Route.ComponentProps) => {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -38,13 +44,16 @@ const Home = () => {
     };
   }, []);
 
+  const sanitizedEvents = loaderData.nextEvents
+    .filter(event => event.sportData !== null);
+
   return (
     <main className="min-h-screen bg-background max-w-7xl mx-auto px-4 space-y-12 md:space-y-6">
       <HomeHeader />
-      <HeroSection />
+      <HeroSection counterData={sanitizedEvents} />
       <ArticleShowcase />
       <SocialWall />
-      <Leaderboards />
+      <Leaderboards counterData={sanitizedEvents}/>
       <About />
       <Footer />
     </main>

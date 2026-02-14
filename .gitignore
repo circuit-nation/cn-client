@@ -8,3 +8,6 @@
 
 
 *.txt
+.env.local
+
+convex/_generated

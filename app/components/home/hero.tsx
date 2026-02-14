@@ -1,6 +1,7 @@
 import { IconBrandInstagram as Instagram, IconBrandYoutube as Youtube, IconBrandReddit as Reddit } from "@tabler/icons-react"; import { motion } from "motion/react";
 import { RaceCountdownCounter } from "~/components/common/counter";
 import UpdateCard from "../common/update-card";
+import type { EventParsed } from "~/schema";
 
 const socialStats = [
     { icon: Reddit, count: "125K+", label: "Members", color: "text-cn-orange" },
@@ -8,7 +9,16 @@ const socialStats = [
     { icon: Youtube, count: "210K+", label: "Subscribers", color: "text-cn-red" },
 ];
 
-const Hero = () => {
+interface HeroPageProps {
+    counterData: EventParsed[]; // Array of upcoming events with parsed data
+}
+
+const Hero = (props: HeroPageProps) => {
+    const { counterData } = props;
+
+    const f1Data = counterData.find(event => event.sportData?.type === "formula");
+    const motoGpData = counterData.find(event => event.sportData?.type === "motogp");
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-48 lg:pt-0">
             {/* Content */}
@@ -83,7 +93,7 @@ const Hero = () => {
                         <div className="w-full rounded-xl border border-border p-4">
                             <div className="grid h-auto gap-4">
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <RaceCountdownCounter
+                                    {/* <RaceCountdownCounter
                                         title="Formula 1"
                                         subtitle="Next race · Mar 6"
                                         targetDate={new Date("2026-03-06T14:00:00")}
@@ -96,7 +106,25 @@ const Hero = () => {
                                         targetDate={new Date("2026-02-20T14:00:00")}
                                         accentClass="text-cn-blue"
                                         backgroundImage="/assets/motogp-bike.png"
-                                    />
+                                    /> */}
+                                    {f1Data && (
+                                        <RaceCountdownCounter
+                                            title={f1Data.sportData?.name || "Formula 1"}
+                                            subtitle={f1Data.title}
+                                            targetDate={new Date(f1Data.event_start_at)}
+                                            accentClass="text-cn-red"
+                                            backgroundImage="/assets/f1-car.png"
+                                        />
+                                    )}
+                                    {motoGpData && (
+                                        <RaceCountdownCounter
+                                            title={motoGpData.sportData?.name || "MotoGP"}
+                                            subtitle={motoGpData.title}
+                                            targetDate={new Date(motoGpData.event_start_at)}
+                                            accentClass="text-cn-blue"
+                                            backgroundImage="/assets/motogp-bike.png"
+                                        />
+                                    )}
                                 </div>
 
                                 <div className="grid grid-cols-1">
