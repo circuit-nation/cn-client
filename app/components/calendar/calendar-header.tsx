@@ -17,21 +17,21 @@ export const CalendarHeader = ({
     label,
 }: CalendarHeaderProps) => {
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
             <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={onToday}
-                className="text-sm font-medium"
+                className="rounded-full border border-muted/50 bg-muted/20 px-4 text-xs font-semibold uppercase tracking-wide text-foreground/80 hover:bg-muted/30"
             >
                 Today
             </Button>
-            <div className="flex items-center">
+            <div className="flex items-center rounded-full border border-muted/50 bg-muted/10 p-0.5">
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={onPrevious}
-                    className="h-8 w-8"
+                    className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
                 >
                     <ChevronLeft className="h-4 w-4" />
                 </Button>
@@ -39,12 +39,12 @@ export const CalendarHeader = ({
                     variant="ghost"
                     size="icon"
                     onClick={onNext}
-                    className="h-8 w-8"
+                    className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
                 >
                     <ChevronRight className="h-4 w-4" />
                 </Button>
             </div>
-            <h2 className="text-lg font-semibold text-foreground min-w-40">
+            <h2 className="min-w-40 text-base font-semibold text-foreground/90">
                 {label || currentDate.toDateString()}
             </h2>
         </div>

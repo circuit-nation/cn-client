@@ -15,14 +15,6 @@ interface MonthViewProps {
 
 const WEEKDAYS = ["MON", "TUES", "WED", "THUR", "FRI", "SAT", "SUN"];
 const BASE_WEEK_HEIGHT = 140;
-const LANE_HEIGHT = 26;
-
-type WeekSegment = {
-    event: CalendarEvent;
-    startIndex: number;
-    endIndex: number;
-    lane: number;
-};
 
 const chunkWeeks = (days: Date[]): Date[][] => {
     const weeks: Date[][] = [];
@@ -48,42 +40,13 @@ const trimWeeksToFive = (weeks: Date[][], currentDate: Date): Date[][] => {
     return weeks.filter((_, index) => index !== dropIndex).slice(0, 5);
 };
 
-const getWeekSegments = (
-    events: CalendarEvent[],
-    weekStart: Date,
-    weekEnd: Date,
-): WeekSegment[] => {
-    const normalizedStart = startOfDay(weekStart);
-    const normalizedEnd = startOfDay(weekEnd);
-    const intersecting = events.filter(
-        (event) => event.startAt <= normalizedEnd && event.endAt >= normalizedStart,
-    );
-
-    const segments = intersecting.map((event) => {
-        const startDate = event.startAt > normalizedStart ? event.startAt : normalizedStart;
-        const endDate = event.endAt < normalizedEnd ? event.endAt : normalizedEnd;
-        const startIndex = Math.max(0, Math.floor((startOfDay(startDate).getTime() - normalizedStart.getTime()) / (1000 * 60 * 60 * 24)));
-        const endIndex = Math.min(6, Math.floor((startOfDay(endDate).getTime() - normalizedStart.getTime()) / (1000 * 60 * 60 * 24)));
-        return { event, startIndex, endIndex };
+const getEventsForDay = (date: Date, events: CalendarEvent[]): CalendarEvent[] => {
+    const dayStart = startOfDay(date);
+    return events.filter((event) => {
+        const eventStart = startOfDay(event.startAt);
+        const eventEnd = startOfDay(event.endAt);
+        return dayStart >= eventStart && dayStart <= eventEnd;
     });
-
-    segments.sort((a, b) => a.startIndex - b.startIndex || a.endIndex - b.endIndex);
-
-    const lanes: number[] = [];
-    const positioned: WeekSegment[] = [];
-
-    segments.forEach((segment) => {
-        let laneIndex = lanes.findIndex((laneEnd) => segment.startIndex > laneEnd);
-        if (laneIndex === -1) {
-            laneIndex = lanes.length;
-            lanes.push(segment.endIndex);
-        } else {
-            lanes[laneIndex] = segment.endIndex;
-        }
-        positioned.push({ ...segment, lane: laneIndex });
-    });
-
-    return positioned;
 };
 
 export const MonthView = ({ currentDate, events }: MonthViewProps) => {
@@ -91,8 +54,8 @@ export const MonthView = ({ currentDate, events }: MonthViewProps) => {
     const weeks = trimWeeksToFive(chunkWeeks(days), currentDate);
 
     return (
-        <div className="animate-fade-in space-y-4">
-            <div className="grid grid-cols-7 rounded-xl border border-muted/40 bg-muted/20 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        <div className="animate-fade-in space-y-3">
+            <div className="grid grid-cols-7 border-b border-muted/40 bg-muted/10 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                 {WEEKDAYS.map((day) => (
                     <div key={day} className="px-3 py-2 text-center">
                         {day}
@@ -101,48 +64,46 @@ export const MonthView = ({ currentDate, events }: MonthViewProps) => {
             </div>
 
             {weeks.map((week, index) => {
-                const weekSegments = getWeekSegments(events, week[0], week[6]);
-                const laneCount = Math.max(1, ...weekSegments.map((segment) => segment.lane + 1));
-                const weekHeight = Math.max(BASE_WEEK_HEIGHT, 64 + laneCount * LANE_HEIGHT);
+                const weekHeight = BASE_WEEK_HEIGHT;
 
                 return (
                     <div
                         key={`${week[0].toISOString()}-${index}`}
-                        className="relative overflow-hidden rounded-2xl border border-muted/40 bg-background/80 shadow-sm"
+                        className="relative overflow-hidden rounded-xl border border-muted/40 bg-background/80"
                         style={{ minHeight: weekHeight }}
                     >
                         <div className="grid h-full grid-cols-7">
-                            {week.map((date) => (
-                                <CalendarDay
-                                    key={date.toISOString()}
-                                    date={date}
-                                    currentDate={currentDate}
-                                    className="h-full"
-                                />
-                            ))}
-                        </div>
+                            {week.map((date) => {
+                                const dayEvents = getEventsForDay(date, events);
+                                const visibleEvents = dayEvents.slice(0, 3);
+                                const remaining = dayEvents.length - visibleEvents.length;
 
-                        <div
-                            className="pointer-events-none absolute inset-x-2 bottom-3 top-12 grid grid-cols-7 gap-x-2"
-                            style={{ gridAutoRows: `${LANE_HEIGHT}px` }}
-                        >
-                            {weekSegments.map((segment) => (
-                                <div
-                                    key={`${segment.event.id}-${segment.startIndex}-${segment.endIndex}`}
-                                    className="pointer-events-auto"
-                                    style={{
-                                        gridColumn: `${segment.startIndex + 1} / ${segment.endIndex + 2}`,
-                                        gridRow: segment.lane + 1,
-                                    }}
-                                >
-                                    <EventBadge
-                                        event={segment.event}
-                                        compact
-                                        variant="month"
-                                        className={isSameDay(segment.event.startAt, segment.event.endAt) ? "" : "rounded-sm"}
-                                    />
-                                </div>
-                            ))}
+                                return (
+                                    <CalendarDay
+                                        key={date.toISOString()}
+                                        date={date}
+                                        currentDate={currentDate}
+                                        className="h-full"
+                                    >
+                                        {visibleEvents.map((event) => (
+                                            <EventBadge
+                                                key={`${event.id}-${date.toISOString()}`}
+                                                event={event}
+                                                compact
+                                                variant="month"
+                                                className={isSameDay(event.startAt, event.endAt)
+                                                    ? "h-auto"
+                                                    : "h-auto rounded-sm"}
+                                            />
+                                        ))}
+                                        {remaining > 0 && (
+                                            <div className="text-[10px] font-medium text-muted-foreground">
+                                                +{remaining} more
+                                            </div>
+                                        )}
+                                    </CalendarDay>
+                                );
+                            })}
                         </div>
                     </div>
                 );

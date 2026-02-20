@@ -98,28 +98,23 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
     return (
         <div
             className={cn(
-                "rounded-3xl border border-muted/40 bg-background/80 shadow-xl",
-                "backdrop-blur",
+                "rounded-2xl border border-muted/50 bg-background/95",
+                "shadow-none",
                 className,
             )}
         >
-            <div className="flex flex-col gap-6 border-b border-muted/30 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
-                <div className="space-y-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        Motorsports Calendar
-                    </p>
-                    <CalendarHeader
-                        currentDate={currentDate}
-                        onPrevious={() => navigateDate("prev")}
-                        onNext={() => navigateDate("next")}
-                        onToday={goToToday}
-                        label={headerLabel}
-                    />
-                </div>
+            <div className="flex flex-col gap-4 border-b border-muted/40 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
+                <CalendarHeader
+                    currentDate={currentDate}
+                    onPrevious={() => navigateDate("prev")}
+                    onNext={() => navigateDate("next")}
+                    onToday={goToToday}
+                    label={headerLabel}
+                />
                 <ViewSwitcher currentView={view} onViewChange={setView} />
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 border-b border-muted/30 px-6 py-4">
+            <div className="flex flex-wrap items-center gap-3 border-b border-muted/40 px-5 py-3">
                 {sportOptions.map((sport) => (
                     <div key={sport.type} className="flex items-center gap-2">
                         <Checkbox
@@ -131,14 +126,14 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
                                     [sport.type]: !prev[sport.type],
                                 }))
                             }
-                            className="data-[state=checked]:border-foreground/80 data-[state=checked]:bg-foreground/80"
+                            className="data-[state=checked]:border-foreground/70 data-[state=checked]:bg-foreground/70"
                         />
                         <label
                             htmlFor={`filter-${sport.type}`}
-                            className="flex cursor-pointer items-center gap-2 text-xs font-medium text-muted-foreground"
+                            className="flex cursor-pointer items-center gap-2 text-[11px] font-medium text-muted-foreground"
                         >
                             <span
-                                className="h-2.5 w-2.5 rounded-full"
+                                className="h-2 w-2 rounded-full"
                                 style={{ backgroundColor: sport.color || "var(--cn-red)" }}
                             />
                             {sport.name}
@@ -147,9 +142,9 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
                 ))}
             </div>
 
-            <div className="overflow-x-auto px-6 py-6">
+            <div className="overflow-x-auto px-5 py-5">
                 {filteredEvents.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-muted/40 p-12 text-center text-muted-foreground">
+                    <div className="rounded-xl border border-dashed border-muted/40 p-10 text-center text-sm text-muted-foreground">
                         No events match the current filters.
                     </div>
                 ) : (

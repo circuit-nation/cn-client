@@ -80,8 +80,8 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
 
     return (
         <div className="animate-fade-in">
-            <div className="overflow-hidden rounded-2xl border border-muted/40 bg-background/80 shadow-sm">
-                <div className="grid grid-cols-[80px_repeat(7,minmax(0,1fr))] border-b border-muted/30 bg-muted/20 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            <div className="overflow-hidden rounded-xl border border-muted/40 bg-background/80">
+                <div className="grid grid-cols-[80px_repeat(7,minmax(0,1fr))] border-b border-muted/40 bg-muted/10 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                     <div className="px-3 py-2">Time</div>
                     {days.map((date) => (
                         <div key={date.toISOString()} className="px-3 py-2 text-center">
@@ -90,8 +90,10 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
                             }</div>
                             <div
                                 className={cn(
-                                    "text-base font-semibold",
-                                    isToday(date) ? "text-cn-red" : "text-foreground",
+                                    "text-sm font-semibold",
+                                    isToday(date)
+                                        ? "rounded-full bg-[#0a84ff] px-2 py-0.5 text-white"
+                                        : "text-foreground",
                                 )}
                             >
                                 {date.getDate()}

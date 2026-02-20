@@ -55,13 +55,13 @@ export const EventBadge = ({
             <PopoverTrigger asChild>
                 <button
                     style={{
-                        borderColor: accent,
+                        borderLeftColor: accent,
                         ...style,
                     }}
                     className={cn(
-                        "group relative flex w-full items-center gap-2 overflow-hidden rounded-sm border bg-card/80 px-2 py-1 text-left text-xs",
-                        "transition-all hover:-translate-y-0.5 hover:bg-card hover:shadow-lg",
-                        "focus:outline-none focus:ring-2 focus:ring-foreground/60",
+                        "group relative flex w-full items-center gap-2 overflow-hidden rounded-md border border-muted/40 border-l-2 bg-muted/20 px-2 py-1 text-left text-xs",
+                        "transition-colors hover:bg-muted/30",
+                        "focus:outline-none focus:ring-2 focus:ring-foreground/50",
                         variant === "week" && "h-full",
                         compact ? "text-[11px]" : "text-xs",
                         className,
@@ -76,21 +76,21 @@ export const EventBadge = ({
                         </span>
                     </span>
                     {timeLabel && (
-                        <span className="rounded-sm border border-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                        <span className="rounded-full border border-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
                             {timeLabel}
                         </span>
                     )}
                 </button>
             </PopoverTrigger>
             <PopoverContent
-                className="w-80 overflow-hidden rounded-sm border border-muted/40 p-0 shadow-xl"
+                className="w-80 overflow-hidden rounded-lg border border-muted/50 bg-background p-0 shadow-none"
                 align="start"
                 sideOffset={8}
             >
-                <div className="space-y-3 bg-card/90 px-4 py-4">
+                <div className="space-y-3 bg-background px-4 py-4">
                     <div className="flex items-center gap-2">
                         <span
-                            className="rounded-sm border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                            className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
                             style={{ borderColor: accent, color: accent }}
                         >
                             {event.type.replace("-", " ")}

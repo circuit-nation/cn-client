@@ -1,5 +1,6 @@
 import type { CalendarView } from '~/types/calendar';
 import { Button } from '~/components/ui/button';
+import { ButtonGroup } from '~/components/ui/button-group';
 import { cn } from '~/lib/utils';
 
 interface ViewSwitcherProps {
@@ -14,23 +15,23 @@ export const ViewSwitcher = ({ currentView, onViewChange }: ViewSwitcherProps) =
     ];
 
     return (
-        <div className="inline-flex items-center bg-secondary rounded-lg p-1 gap-0.5">
+        <ButtonGroup className="inline-flex items-center gap-1 rounded-full border border-muted/50 bg-muted/20">
             {views.map((view) => (
                 <Button
                     key={view.key}
-                    variant="ghost"
+                    variant="view-switcher"
                     size="sm"
                     onClick={() => onViewChange(view.key)}
                     className={cn(
-                        'px-3 py-1.5 h-auto text-sm font-medium rounded-md transition-all',
+                        'h-7 rounded-full px-4 text-xs font-semibold uppercase tracking-wide transition-colors',
                         currentView === view.key
-                            ? 'bg-card text-foreground shadow-sm'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
+                            ? 'bg-foreground text-background'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/30',
                     )}
                 >
                     {view.label}
                 </Button>
             ))}
-        </div>
+        </ButtonGroup>
     );
 };

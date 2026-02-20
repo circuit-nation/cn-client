@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { isToday, isCurrentMonth } from "~/lib/calendar-utils";
 import { cn } from "~/lib/utils";
 
@@ -5,9 +6,10 @@ interface CalendarDayProps {
     date: Date;
     currentDate: Date;
     className?: string;
+    children?: ReactNode;
 }
 
-export const CalendarDay = ({ date, currentDate, className }: CalendarDayProps) => {
+export const CalendarDay = ({ date, currentDate, className, children }: CalendarDayProps) => {
     const isCurrentDay = isToday(date);
     const isInCurrentMonth = isCurrentMonth(date, currentDate);
     const showMonthLabel = date.getDate() === 1;
@@ -15,18 +17,18 @@ export const CalendarDay = ({ date, currentDate, className }: CalendarDayProps) 
     return (
         <div
             className={cn(
-                "relative h-full border border-muted/30 bg-background/70 p-2 transition-colors",
-                "hover:bg-muted/20",
-                !isInCurrentMonth && "bg-muted/10 text-muted-foreground/70",
+                "relative h-full border border-muted/30 bg-transparent p-2 transition-colors",
+                "hover:bg-muted/10",
+                !isInCurrentMonth && "text-muted-foreground/60",
                 className,
             )}
         >
             <div className="flex items-center justify-between">
                 <span
                     className={cn(
-                        "inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
-                        isCurrentDay && "bg-cn-red text-foreground",
-                        !isCurrentDay && isInCurrentMonth && "text-foreground",
+                        "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
+                        isCurrentDay && "bg-[#0a84ff] text-white",
+                        !isCurrentDay && isInCurrentMonth && "text-foreground/90",
                         !isCurrentDay && !isInCurrentMonth && "text-muted-foreground",
                     )}
                 >
@@ -38,6 +40,7 @@ export const CalendarDay = ({ date, currentDate, className }: CalendarDayProps) 
                     </span>
                 )}
             </div>
+            {children && <div className="mt-2 space-y-1">{children}</div>}
         </div>
     );
 };
