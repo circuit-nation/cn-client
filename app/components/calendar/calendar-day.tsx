@@ -17,17 +17,17 @@ export const CalendarDay = ({ date, currentDate, className, children }: Calendar
     return (
         <div
             className={cn(
-                "relative h-full border border-muted/30 bg-transparent p-2 transition-colors",
+                "relative h-full bg-transparent p-2 transition-colors",
                 "hover:bg-muted/10",
                 !isInCurrentMonth && "text-muted-foreground/60",
                 className,
             )}
         >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b border-muted/20 pb-1">
                 <span
                     className={cn(
                         "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
-                        isCurrentDay && "bg-[#0a84ff] text-white",
+                        isCurrentDay && "bg-amber-500 text-white",
                         !isCurrentDay && isInCurrentMonth && "text-foreground/90",
                         !isCurrentDay && !isInCurrentMonth && "text-muted-foreground",
                     )}

@@ -102,7 +102,7 @@ export const WeekView = ({ currentDate, events }: WeekViewProps) => {
                     ))}
                 </div>
 
-                <div className="max-h-[720px] overflow-auto">
+                <div className="max-h-180 overflow-auto">
                     <div className="grid grid-cols-[80px_repeat(7,minmax(0,1fr))]">
                         <div
                             className="relative border-r border-muted/30 bg-muted/10"

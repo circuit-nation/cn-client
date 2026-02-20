@@ -12,6 +12,8 @@ export const ViewSwitcher = ({ currentView, onViewChange }: ViewSwitcherProps) =
     const views: { key: CalendarView; label: string }[] = [
         { key: 'month', label: 'Month' },
         { key: 'week', label: 'Week' },
+        { key: 'rounds', label: 'Rounds' },
+        { key: 'races', label: 'Races' },
     ];
 
     return (

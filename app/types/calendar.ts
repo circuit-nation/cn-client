@@ -6,6 +6,7 @@ export interface CalendarEvent {
   type: EventType;
   sportType: SportsType;
   sportName: string;
+  round?: number;
   sportColor?: string;
   startAt: Date;
   endAt: Date;
@@ -15,4 +16,4 @@ export interface CalendarEvent {
   images?: string[];
 }
 
-export type CalendarView = "month" | "week";
+export type CalendarView = "month" | "week" | "rounds" | "races";

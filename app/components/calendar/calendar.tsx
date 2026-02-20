@@ -14,6 +14,52 @@ interface MotorsportCalendarProps {
     events: EventParsed[];
 }
 
+const getMonthRange = (date: Date): { start: Date; end: Date } => {
+    const start = new Date(date.getFullYear(), date.getMonth(), 1);
+    const end = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
+    return { start, end };
+};
+
+const isOverlappingRange = (event: CalendarEvent, start: Date, end: Date): boolean =>
+    event.startAt <= end && event.endAt >= start;
+
+const buildRoundEvents = (events: CalendarEvent[]): CalendarEvent[] => {
+    const grouped = new Map<string, CalendarEvent[]>();
+
+    events.forEach((event) => {
+        const round = event.round ?? 0;
+        if (round === 0) {
+            return;
+        }
+        const key = `${event.sportType}-${round}`;
+        if (!grouped.has(key)) {
+            grouped.set(key, []);
+        }
+        grouped.get(key)?.push(event);
+    });
+
+    const aggregated = Array.from(grouped.values()).map((group) => {
+        group.sort((a, b) => a.startAt.getTime() - b.startAt.getTime());
+        const startAt = group[0].startAt;
+        const endAt = group.reduce(
+            (max, event) => (event.endAt > max ? event.endAt : max),
+            group[0].endAt,
+        );
+        const raceEvent = group.find((event) => event.type === "race") ?? group[0];
+
+        return {
+            ...raceEvent,
+            id: `round-${raceEvent.sportType}-${raceEvent.round ?? 0}`,
+            title: `${raceEvent.sportName} ${raceEvent.title.split(" - ")[0]}`,
+            startAt,
+            endAt,
+        };
+    });
+
+    aggregated.sort((a, b) => a.startAt.getTime() - b.startAt.getTime());
+    return aggregated;
+};
+
 export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProps) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [view, setView] = useState<CalendarView>('month');
@@ -28,6 +74,7 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
                 type: event.type,
                 sportType: event.sportData?.type ?? "formula",
                 sportName: event.sportData?.name ?? "Motorsport",
+                round: event.round,
                 sportColor: event.sportData?.color,
                 startAt: new Date(event.event_start_at),
                 endAt: new Date(event.event_end_at || event.event_start_at),
@@ -79,10 +126,10 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
         setCurrentDate((prev) => {
             const newDate = new Date(prev);
 
-            if (view === "month") {
-                newDate.setMonth(prev.getMonth() + (direction === "next" ? 1 : -1));
-            } else {
+            if (view === "week") {
                 newDate.setDate(prev.getDate() + (direction === "next" ? 7 : -7));
+            } else {
+                newDate.setMonth(prev.getMonth() + (direction === "next" ? 1 : -1));
             }
 
             return newDate;
@@ -91,9 +138,41 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
 
     const goToToday = () => setCurrentDate(new Date());
 
-    const headerLabel = view === "month"
-        ? formatMonthYear(currentDate)
-        : formatWeekRange(currentDate);
+    const headerLabel = view === "week"
+        ? formatWeekRange(currentDate)
+        : formatMonthYear(currentDate);
+
+    const roundEvents = useMemo(
+        () => buildRoundEvents(filteredEvents),
+        [filteredEvents],
+    );
+
+    const raceEvents = useMemo(
+        () => filteredEvents.filter((event) => event.type === "race"),
+        [filteredEvents],
+    );
+
+    const monthRange = useMemo(() => getMonthRange(currentDate), [currentDate]);
+
+    const eventsForView = useMemo(() => {
+        if (view === "rounds") {
+            return roundEvents.filter((event) =>
+                isOverlappingRange(event, monthRange.start, monthRange.end),
+            );
+        }
+        if (view === "races") {
+            return raceEvents.filter((event) =>
+                isOverlappingRange(event, monthRange.start, monthRange.end),
+            );
+        }
+        return filteredEvents;
+    }, [filteredEvents, monthRange, raceEvents, roundEvents, view]);
+
+    const emptyMessage = view === "rounds"
+        ? "No rounds in this month."
+        : view === "races"
+            ? "No races in this month."
+            : "No events match the current filters.";
 
     return (
         <div
@@ -143,17 +222,21 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
             </div>
 
             <div className="overflow-x-auto px-5 py-5">
-                {filteredEvents.length === 0 ? (
+                {eventsForView.length === 0 ? (
                     <div className="rounded-xl border border-dashed border-muted/40 p-10 text-center text-sm text-muted-foreground">
-                        No events match the current filters.
+                        {emptyMessage}
                     </div>
                 ) : (
                     <>
-                        {view === "month" && (
-                            <MonthView currentDate={currentDate} events={filteredEvents} />
+                        {view !== "week" && (
+                            <MonthView
+                                currentDate={currentDate}
+                                events={eventsForView}
+                                spanMultiDay={view === "rounds"}
+                            />
                         )}
                         {view === "week" && (
-                            <WeekView currentDate={currentDate} events={filteredEvents} />
+                            <WeekView currentDate={currentDate} events={eventsForView} />
                         )}
                     </>
                 )}
