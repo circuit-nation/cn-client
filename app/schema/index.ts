@@ -144,8 +144,14 @@ export interface EventCardInfo {
 
 export type NextEventsPayload = EventParsed[];
 
+export type CalendarEventsPayload = EventParsed[];
+
 export interface NextEventsResponse {
   nextEvents: NextEventsPayload;
+}
+
+export interface CalendarEventsResponse {
+  calendarEvents: CalendarEventsPayload;
 }
 
 export interface TeamParsed extends Team {

@@ -1,19 +1,20 @@
-import { Button } from '~/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { formatMonthYear } from '~/lib/calendar-utils';
+import { Button } from "~/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CalendarHeaderProps {
     currentDate: Date;
     onPrevious: () => void;
     onNext: () => void;
     onToday: () => void;
+    label?: string;
 }
 
 export const CalendarHeader = ({
     currentDate,
     onPrevious,
     onNext,
-    onToday
+    onToday,
+    label,
 }: CalendarHeaderProps) => {
     return (
         <div className="flex items-center gap-2">
@@ -44,7 +45,7 @@ export const CalendarHeader = ({
                 </Button>
             </div>
             <h2 className="text-lg font-semibold text-foreground min-w-40">
-                {formatMonthYear(currentDate)}
+                {label || currentDate.toDateString()}
             </h2>
         </div>
     );

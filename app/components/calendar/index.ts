@@ -1,8 +1,7 @@
-export { MotorsportCalendar } from "./MotorsportCalendar";
-export { CalendarDay } from "./CalendarDay";
-export { CalendarHeader } from "./CalendarHeader";
-export { EventBadge } from "./EventBadge";
-export { ViewSwitcher } from "./ViewSwitcher";
-export { MonthView } from "./MonthView";
-export { WeekView } from "./WeekView";
-export { ThreeDayView } from "./ThreeDayView";
+export { MotorsportCalendar } from "./calendar";
+export { CalendarDay } from "./calendar-day";
+export { CalendarHeader } from "./calendar-header";
+export { EventBadge } from "./event-badge";
+export { ViewSwitcher } from "./view-switcher";
+export { MonthView } from "./month-view";
+export { WeekView } from "./week-view";
