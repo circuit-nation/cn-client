@@ -22,7 +22,7 @@ export default function HomeHeader() {
         },
         {
             name: "Calendar",
-            link: "#calendar",
+            link: "/calendar",
         },
     ];
 

@@ -236,14 +236,14 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
     return (
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
             <div className="size-18">
                 <Logo />
             </div>
             <h2 className="text-xl lg:text-2xl font-bold tracking-tight">
                 Circuit Nation
             </h2>
-        </div>
+        </Link>
 
     );
 };

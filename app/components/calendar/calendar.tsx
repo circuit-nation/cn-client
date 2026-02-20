@@ -98,7 +98,7 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
     return (
         <div
             className={cn(
-                "rounded-2xl border border-muted/50 bg-background/95",
+                "rounded-2xl border border-foreground/20 bg-background/95",
                 "shadow-none",
                 className,
             )}

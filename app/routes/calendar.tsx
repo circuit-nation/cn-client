@@ -1,10 +1,10 @@
 import type { Route } from "./+types/calendar";
-import { CalendarClock } from "lucide-react";
 import { MotorsportCalendar } from "~/components/calendar";
-import ComponentHeading from "~/components/common/component-heading";
 import { Logo } from "~/components/common/logo";
 import fetchCalendarEvents from "~/db/calendar-events";
 import type { CalendarEventsResponse } from "~/schema";
+import { Link } from "react-router";
+import { NavbarLogo } from "~/components/ui/resizable-navbar";
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -20,24 +20,9 @@ export async function loader({ }: Route.LoaderArgs) {
 
 const Index = ({ loaderData }: Route.ComponentProps) => {
     return (
-        <div className="min-h-screen bg-background">
-            <header className="border-b border-muted/30 bg-background/80 backdrop-blur">
-                <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-                    <div className="flex items-center gap-3">
-                        <div className="size-14">
-                            <Logo />
-                        </div>
-                        <div>
-                            <h1 className="text-lg font-semibold text-foreground">Circuit Nation</h1>
-                            <p className="text-xs text-muted-foreground">Ultimate Hub for Everything Motorsports</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <main className="mx-auto max-w-6xl px-4 py-10">
-                <MotorsportCalendar events={loaderData.calendarEvents} />
-            </main>
+        <div className="min-h-screen bg-background max-w-7xl mx-auto px-4 py-6 space-y-12 md:space-y-6">
+            <NavbarLogo />
+            <MotorsportCalendar events={loaderData.calendarEvents} />
         </div>
     );
 };
