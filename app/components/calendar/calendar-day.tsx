@@ -27,7 +27,7 @@ export const CalendarDay = ({ date, currentDate, className, children }: Calendar
                 <span
                     className={cn(
                         "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold",
-                        isCurrentDay && "bg-amber-500 text-white",
+                        isCurrentDay && "bg-cn-blue-dark text-white",
                         !isCurrentDay && isInCurrentMonth && "text-foreground/90",
                         !isCurrentDay && !isInCurrentMonth && "text-muted-foreground",
                     )}

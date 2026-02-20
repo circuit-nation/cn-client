@@ -148,7 +148,7 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
     );
 
     const raceEvents = useMemo(
-        () => filteredEvents.filter((event) => event.type === "race"),
+        () => filteredEvents.filter((event) => event.type === "race" || event.type === "sprint"),
         [filteredEvents],
     );
 
@@ -222,23 +222,20 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
             </div>
 
             <div className="overflow-x-auto px-5 py-5">
-                {eventsForView.length === 0 ? (
-                    <div className="rounded-xl border border-dashed border-muted/40 p-10 text-center text-sm text-muted-foreground">
+                {view !== "week" && (
+                    <MonthView
+                        currentDate={currentDate}
+                        events={eventsForView}
+                        spanMultiDay={view === "rounds"}
+                    />
+                )}
+                {view === "week" && (
+                    <WeekView currentDate={currentDate} events={eventsForView} />
+                )}
+                {eventsForView.length === 0 && (
+                    <div className="mt-4 rounded-xl border border-dashed border-muted/40 p-6 text-center text-sm text-muted-foreground">
                         {emptyMessage}
                     </div>
-                ) : (
-                    <>
-                        {view !== "week" && (
-                            <MonthView
-                                currentDate={currentDate}
-                                events={eventsForView}
-                                spanMultiDay={view === "rounds"}
-                            />
-                        )}
-                        {view === "week" && (
-                            <WeekView currentDate={currentDate} events={eventsForView} />
-                        )}
-                    </>
                 )}
             </div>
         </div>
