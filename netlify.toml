@@ -1,5 +1,5 @@
 [build]
-command = "react-router build"
+command = "npx convex deploy && npm run build"
 publish = "build/client"
 
 [dev]

@@ -1,6 +1,16 @@
-import type { MotorsportEvent } from "~/types/calendar";
+import type { CalendarEvent } from "~/types/calendar";
 
-export const motorsportEvents: MotorsportEvent[] = [
+type LegacyEvent = {
+  id: string;
+  title: string;
+  location: string;
+  sport: "f1" | "motogp";
+  startDate: Date;
+  endDate: Date;
+  circuit?: string;
+};
+
+const legacyEvents: LegacyEvent[] = [
   // January 2026 - Team Launches and Pre-Season
   {
     id: "f1-porsche-launch-2026",
@@ -269,3 +279,32 @@ export const motorsportEvents: MotorsportEvent[] = [
     circuit: "Silverstone Circuit",
   },
 ];
+
+const sportMeta = {
+  f1: {
+    sportType: "formula" as const,
+    sportName: "Formula 1",
+    sportColor: "var(--cn-red)",
+  },
+  motogp: {
+    sportType: "motogp" as const,
+    sportName: "MotoGP",
+    sportColor: "var(--cn-blue)",
+  },
+};
+
+export const motorsportEvents: CalendarEvent[] = legacyEvents.map((event) => {
+  const meta = sportMeta[event.sport];
+  return {
+    id: event.id,
+    title: event.title,
+    type: "race",
+    sportType: meta.sportType,
+    sportName: meta.sportName,
+    sportColor: meta.sportColor,
+    startAt: event.startDate,
+    endAt: event.endDate,
+    circuitName: event.circuit,
+    location: event.location,
+  };
+});

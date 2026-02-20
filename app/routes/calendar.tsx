@@ -1,6 +1,10 @@
 import type { Route } from "./+types/calendar";
-import { MotorsportCalendar } from '~/components/calendar';
-import { Logo } from "~/components/utils/logo";
+import { MotorsportCalendar } from "~/components/calendar";
+import { Logo } from "~/components/common/logo";
+import fetchCalendarEvents from "~/db/calendar-events";
+import type { CalendarEventsResponse } from "~/schema";
+import { Link } from "react-router";
+import { NavbarLogo } from "~/components/ui/resizable-navbar";
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -9,29 +13,16 @@ export function meta({ }: Route.MetaArgs) {
     ];
 }
 
-const Index = () => {
+export async function loader({ }: Route.LoaderArgs) {
+    const calendarEvents = await fetchCalendarEvents();
+    return { calendarEvents } satisfies CalendarEventsResponse;
+}
+
+const Index = ({ loaderData }: Route.ComponentProps) => {
     return (
-        <div className="min-h-screen bg-background">
-            {/* Header */}
-            <header className="border-b border-border bg-card">
-                <div className="flex items-center justify-between max-w-6xl mx-auto px-4 py-4">
-                    <div className="flex items-center gap-3">
-                        <div className="size-16 ">
-                            <Logo />
-                        </div>
-                        <div>
-                            <h1 className="text-xl font-bold text-foreground">Circuit Nation</h1>
-                            <p className="text-sm text-muted-foreground">Ultimate Hub for Everything Motorsports</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            {/* Main Content */}
-            <main className="container max-w-6xl mx-auto px-4 py-6">
-                <MotorsportCalendar />
-            </main>
-
+        <div className="min-h-screen bg-background max-w-7xl mx-auto px-4 py-6 space-y-12 md:space-y-6">
+            <NavbarLogo />
+            <MotorsportCalendar events={loaderData.calendarEvents} />
         </div>
     );
 };

@@ -8,3 +8,9 @@
 
 
 *.txt
+.env.local
+.env.development
+.env.test
+.env.production
+
+convex/_generated

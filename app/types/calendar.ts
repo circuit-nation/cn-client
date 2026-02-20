@@ -1,13 +1,19 @@
-export type SportType = 'f1' | 'motogp';
+import type { EventType, SportsType } from "~/schema";
 
-export interface MotorsportEvent {
+export interface CalendarEvent {
   id: string;
   title: string;
-  location: string;
-  sport: SportType;
-  startDate: Date;
-  endDate: Date;
-  circuit?: string;
+  type: EventType;
+  sportType: SportsType;
+  sportName: string;
+  round?: number;
+  sportColor?: string;
+  startAt: Date;
+  endAt: Date;
+  circuitName?: string;
+  location?: string;
+  locationCode?: string;
+  images?: string[];
 }
 
-export type CalendarView = 'month' | 'week';
+export type CalendarView = "month" | "week" | "rounds" | "races";

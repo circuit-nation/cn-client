@@ -9,23 +9,18 @@ Stores all racing-related events.
 
 | Field | Type | Required | Description |
 |------|------|----------|-------------|
-| $id | string | yes | Appwrite system ID |
+| _id | string | yes | Convex document ID |
+| _creationTime | number | auto | Created timestamp (ms) |
 | id | string | yes | Domain-specific event ID |
 | title | string | yes | Event title |
 | round | int | yes | Championship round |
 | type | enum | yes | Event type |
-| location | float[] | no | GPS coordinates [lat, long] |
-| location_id | string | yes | Reference to `event_locations.$id` |
-| links_id | string | no | Reference to `event_links.$id` |
-| location_str | string | yes | Human-readable location |
-| sport | string | yes | Reference to `sports.$id` |
-| country_code | string | yes | ISO country code |
-| country | string | yes | Country name |
+| circuit_id | string | yes | Reference to `circuits._id` |
+| links_id | string | no | Reference to `event_links._id` |
+| sport_id | string | yes | Reference to `sports._id` |
 | event_start_at | datetime | yes | Event start |
 | event_end_at | datetime | yes | Event end |
 | images | string[] | no | Image URLs |
-| $createdAt | datetime | auto | Created timestamp |
-| $updatedAt | datetime | auto | Updated timestamp |
 
 ---
 
@@ -48,6 +43,8 @@ Defines a racing discipline.
 | Field | Type | Required |
 |------|------|----------|
 | id | string | yes |
+| _id | string | yes |
+| _creationTime | number | auto |
 | name | string | yes |
 | logo | string | yes |
 | color | string | yes |
@@ -61,7 +58,7 @@ Defines a racing discipline.
 - motogp
 - superbike
 - endurance
-- off road
+- off-road
 - nascar
 
 ---
@@ -103,7 +100,7 @@ Defines a racing discipline.
 - news
 - announcement
 - update
-- watch party
+- watch-party
 
 
 
