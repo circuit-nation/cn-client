@@ -1,8 +1,5 @@
-import type { SVGProps } from "react";
-import React from "react";
 import { Trophy } from "lucide-react";
 import { motion } from "motion/react";
-import * as Flags from "country-flag-icons/react/3x2";
 import ComponentHeading from "../common/component-heading";
 import { RaceCountdownCounter } from "../common/counter";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -16,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from "~/components/ui/table";
+import Flag from "../common/flag-component";
 import { cn } from "~/lib/utils";
 import type { EventCardInfo, EventParsed } from "~/schema";
 
@@ -394,17 +392,6 @@ const formatEventDateRange = (startAt: string, endAt: string): string | null => 
     return `${monthDay.format(startDate)} - ${monthDay.format(endDate)}, ${yearOnly.format(endDate)}`;
 };
 
-type FlagComponent = (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
-
-const getFlagComponent = (countryCode?: string): FlagComponent | null => {
-    if (!countryCode) {
-        return null;
-    }
-
-    const normalizedCode = countryCode.trim().toUpperCase();
-    return (Flags as Record<string, FlagComponent>)[normalizedCode] ?? null;
-};
-
 const buildEventCardInfo = (
     event: EventParsed | undefined,
     fallback: EventCardInfo,
@@ -435,7 +422,6 @@ const EventCard = ({
     event: EventCardInfo;
     className?: string;
 }) => {
-    const Flag = getFlagComponent(event.countryCode);
 
     return (
         <motion.div
@@ -463,12 +449,9 @@ const EventCard = ({
                         <div className="space-y-1">
                             <h4 className="text-lg font-semibold leading-tight">{event.name}</h4>
                             <div className="flex items-center gap-2 text-sm">
-                                {Flag ? (
-                                    <Flag
-                                        className="aspect-video h-4 w-auto rounded-sm object-cover"
-                                        aria-label={`${event.location} flag`}
-                                    />
-                                ) : null}
+                                {event.countryCode && (
+                                    <Flag countryCode={event.countryCode} size="md" />
+                                )}
                                 <span className="font-medium text-muted-foreground">{event.location}</span>
                             </div>
                         </div>

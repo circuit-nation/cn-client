@@ -79,6 +79,7 @@ export const MotorsportCalendar = ({ className, events }: MotorsportCalendarProp
                 startAt: new Date(event.event_start_at),
                 endAt: new Date(event.event_end_at || event.event_start_at),
                 circuitName: event.circuitData?.name,
+                countryCode: event.circuitData?.country_code ?? "",
                 location: event.circuitData?.location_str,
                 locationCode: event.circuitData?.country_code,
                 images: event.images,
