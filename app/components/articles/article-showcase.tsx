@@ -2,55 +2,21 @@ import ArticleCard from "./article-card"
 import ComponentHeading from "../common/component-heading"
 import { Newspaper } from "lucide-react"
 import { motion } from "motion/react"
+import type { Articles } from "~/types/articles";
+import { Link } from "react-router";
 
-const articles = [
-    {
-        title: "Ferrari's late surge lights up Saturday qualifying",
-        link: "/",
-        description:
-            "A final-sector flyer flips the front row in a session packed with traffic, track evolution, and bold tire calls.",
-        imageUrl:
-            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-        publishedAt: Date.now() - 1000 * 60 * 60 * 6,
-        tags: ["f1", "qualifying", "ferrari"],
-        views: 18420,
-    },
-    {
-        title: "Red Bull nails race setup after FP2 experiments",
-        link: "/",
-        description:
-            "Long-run data hints at tire management gains as teams weigh a one-stop gamble against late-race pace.",
-        imageUrl:
-            "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
-        publishedAt: Date.now() - 1000 * 60 * 60 * 18,
-        tags: ["f1", "race-day", "strategy"],
-        views: 26310,
-    },
-    {
-        title: "Martin edges Bagnaia in razor-thin sprint finish",
-        link: "/",
-        description:
-            "MotoGP delivers a photo finish after a late braking duel that saw both riders swap positions twice in two laps.",
-        imageUrl:
-            "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
-        publishedAt: Date.now() - 1000 * 60 * 60 * 28,
-        tags: ["motogp", "sprint", "ducati"],
-        views: 14780,
-    },
-    {
-        title: "Yamaha's aero update brings mid-corner stability",
-        link: "/",
-        description:
-            "Riders report calmer front-end feedback, unlocking a smoother line through high-speed direction changes.",
-        imageUrl:
-            "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
-        publishedAt: Date.now() - 1000 * 60 * 60 * 40,
-        tags: ["motogp", "tech", "yamaha"],
-        views: 9320,
-    },
-]
+interface ArticleShowcaseProps {
+    articles: Articles[];
+    limit?: number | null;
+    showCta?: boolean;
+}
 
-export default function ArticleShowcase() {
+export default function ArticleShowcase({ articles, limit = 4, showCta = true }: ArticleShowcaseProps) {
+    const sanitizedArticles = articles
+        .filter(article => article.title && article.first_paragraph && article.first_image && article.published_time);
+    const visibleArticles = typeof limit === "number"
+        ? sanitizedArticles.slice(0, limit)
+        : sanitizedArticles;
     return (
         <>
             <div className="space-y-4" id="articles">
@@ -74,10 +40,28 @@ export default function ArticleShowcase() {
                     transition={{ duration: 0.45, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
                     viewport={{ once: true, margin: "-80px" }}
                 >
-                    {articles.map((article) => (
-                        <ArticleCard key={article.title} {...article} />
+                    {visibleArticles.map((article) => (
+                        <ArticleCard key={article.title} article={article} />
                     ))}
                 </motion.section>
+
+                {showCta ? (
+                    <motion.div
+                        className="text-center mt-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <Link
+                            to="/articles"
+                            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold border border-muted/50 bg-background/80 hover:scale-105 transition-transform duration-300"
+                        >
+                            <Newspaper className="size-5" />
+                            Read more articles
+                        </Link>
+                    </motion.div>
+                ) : null}
             </div>
         </>
     )

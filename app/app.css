@@ -287,6 +287,10 @@ body {
     color: var(--cn-green);
   }
 
+  .text-cn-amber {
+    color: var(--cn-amber);
+  }
+
   /* Circuit Nation brand utilities - borders */
   .border-cn-red {
     border-color: var(--cn-red);

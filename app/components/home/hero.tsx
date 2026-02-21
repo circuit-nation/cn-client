@@ -1,23 +1,30 @@
-import { IconBrandInstagram as Instagram, IconBrandYoutube as Youtube, IconBrandReddit as Reddit } from "@tabler/icons-react"; import { motion } from "motion/react";
+import { IconBrandInstagram as Instagram, IconBrandYoutube as Youtube, IconBrandReddit as Reddit } from "@tabler/icons-react";
+import { motion } from "motion/react";
 import { RaceCountdownCounter } from "~/components/common/counter";
 import UpdateCard from "../common/update-card";
 import type { EventParsed } from "~/schema";
-
-const socialStats = [
-    { icon: Reddit, count: "125K+", label: "Members", color: "text-cn-orange" },
-    { icon: Instagram, count: "89K+", label: "Followers", color: "text-cn-pink" },
-    { icon: Youtube, count: "210K+", label: "Subscribers", color: "text-cn-red" },
-];
+import SocialStats from "./social-stats";
 
 interface HeroPageProps {
     counterData: EventParsed[]; // Array of upcoming events with parsed data
+    socialStats: {
+        reddit: number;
+        youtube: number;
+        instagram: number;
+    };
 }
 
 const Hero = (props: HeroPageProps) => {
-    const { counterData } = props;
+    const { counterData, socialStats } = props;
 
     const f1Data = counterData.find(event => event.sportData?.type === "formula");
     const motoGpData = counterData.find(event => event.sportData?.type === "motogp");
+
+    const stats = [
+        { label: "reddit", count: socialStats.reddit, icon: Reddit, color: "text-cn-orange" },
+        { label: "youtube", count: socialStats.youtube, icon: Youtube, color: "text-cn-red" },
+        { label: "instagram", count: socialStats.instagram, icon: Instagram, color: "text-cn-pink" },
+    ]
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-48 lg:pt-0">
@@ -51,24 +58,7 @@ const Hero = (props: HeroPageProps) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                         >
-                            {socialStats.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="flex items-center gap-2"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                        duration: 0.5,
-                                        delay: 0.6 + index * 0.1,
-                                        ease: [0.22, 1, 0.36, 1]
-                                    }}
-                                >
-                                    <div className={`${stat.color}`}>
-                                        <stat.icon />
-                                    </div>
-                                    <div className="text-sm font-medium text-foreground">{stat.count}</div>
-                                </motion.div>
-                            ))}
+                            <SocialStats stats={stats} />
                         </motion.div>
 
                         {/* CTA Button */}
@@ -93,20 +83,6 @@ const Hero = (props: HeroPageProps) => {
                         <div className="w-full rounded-xl border border-border p-4">
                             <div className="grid h-auto gap-4">
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    {/* <RaceCountdownCounter
-                                        title="Formula 1"
-                                        subtitle="Next race · Mar 6"
-                                        targetDate={new Date("2026-03-06T14:00:00")}
-                                        accentClass="text-cn-red"
-                                        backgroundImage="/assets/f1-car.png"
-                                    />
-                                    <RaceCountdownCounter
-                                        title="MotoGP"
-                                        subtitle="Next race · Feb 20"
-                                        targetDate={new Date("2026-02-20T14:00:00")}
-                                        accentClass="text-cn-blue"
-                                        backgroundImage="/assets/motogp-bike.png"
-                                    /> */}
                                     {f1Data && (
                                         <RaceCountdownCounter
                                             title={f1Data.sportData?.name || "Formula 1"}

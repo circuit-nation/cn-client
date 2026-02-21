@@ -75,7 +75,7 @@ const RaceCountdownCounter = ({ title, subtitle, targetDate, accentClass, backgr
 			<div className="relative space-y-3">
 				<CardHeader className="gap-1">
 					<span className={`text-sm font-semibold uppercase tracking-wide ${accentClass}`}>{title}</span>
-					{subtitle ? <span className="text-xs text-muted-foreground">{subtitle}</span> : null}
+					{subtitle ? <span className="text-xs text-muted-foreground line-clamp-1">{subtitle}</span> : null}
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-3 gap-2">
