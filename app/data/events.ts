@@ -305,6 +305,7 @@ export const motorsportEvents: CalendarEvent[] = legacyEvents.map((event) => {
     startAt: event.startDate,
     endAt: event.endDate,
     circuitName: event.circuit,
+    countryCode: "", // Country code is not available in legacy data
     location: event.location,
   };
 });

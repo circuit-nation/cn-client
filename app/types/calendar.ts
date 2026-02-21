@@ -11,6 +11,7 @@ export interface CalendarEvent {
   startAt: Date;
   endAt: Date;
   circuitName?: string;
+  countryCode: string;
   location?: string;
   locationCode?: string;
   images?: string[];
