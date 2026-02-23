@@ -1,8 +1,13 @@
 export async function fetchRedditMembers(subreddit: string) {
-  const res = await fetch(`https://www.reddit.com/r/${subreddit}/about.json`);
-  if (!res.ok) return null;
-  const json = await res.json();
-  return json.data?.subscribers ?? 0;
+  try {
+    const res = await fetch(`https://www.reddit.com/r/${subreddit}/about.json`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data?.subscribers ?? 0;
+  } catch (error) {
+    console.error("Error fetching Reddit members:", error);
+    return null;
+  }
 }
 
 export async function fetchYoutubeSubs(channelId: string, apiKey: string) {
