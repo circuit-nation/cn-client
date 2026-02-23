@@ -16,6 +16,7 @@ import { Link } from "react-router"
 import { motion } from "motion/react"
 import { Heart, Bookmark } from "lucide-react"
 import type { Articles } from "~/types/articles"
+import { generateArticleSlug, purifyHTMLString } from "~/lib/utils"
 
 type ArticleCardProps = {
     article: Articles;
@@ -42,7 +43,7 @@ export default function ArticleCard({
     const formatTriggerTag = (tag: string) =>
         tag.length > 16 ? `${tag.slice(0, 16)}...` : tag
 
-    const link: string = "https://monkeys.com.co/blog/" + id;
+    const link: string = "https://monkeys.com.co/blog/" + generateArticleSlug(title, id);
 
     return (
         <motion.div
@@ -74,7 +75,7 @@ export default function ArticleCard({
                         </Link>
                     </CardTitle>
                     <CardDescription className="line-clamp-3">
-                        {description}
+                        {purifyHTMLString(description)}
                     </CardDescription>
                 </CardHeader>
                 <CardFooter className="flex items-center gap-2 pt-4">

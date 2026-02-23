@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import DOMPurify from "isomorphic-dompurify";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -55,3 +56,32 @@ export function formatViews(views?: number) {
     return `${(views / 1000).toFixed(1).replace(/\.0$/, "")}k`;
   return `${(views / 1_000_000).toFixed(1).replace(/\.0$/, "")}m`;
 }
+
+export const generateArticleSlug = (title: string, id: string): string => {
+  if (!title) return "untitled-post";
+
+  const slug = title
+    .toLowerCase()
+    .replace(/’/g, "'") // normalize curly apostrophes
+    .replace(/(\w)'s\b/g, "$1") // remove possessive 's
+    .replace(/'/g, "") // remove any remaining apostrophes
+    .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumerics with hyphen
+    .replace(/-+/g, "-") // collapse multiple hyphens
+    .replace(/^-+|-+$/g, ""); // trim leading/trailing hyphens
+
+  const blogSlug = `${slug}-${id}`;
+  return blogSlug;
+};
+
+
+export const purifyHTMLString = (dirtyString: string) => {
+  let cleanString = DOMPurify.sanitize(dirtyString, {
+    USE_PROFILES: { html: false },
+  });
+
+  cleanString = cleanString.replace(/\\u0026/g, '&');
+
+  cleanString = cleanString.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ');
+
+  return cleanString;
+};
